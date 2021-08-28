@@ -37,6 +37,7 @@ async def 도움(ctx):
 
 @app.command()
 async def 뭐먹지(ctx, *cat):
+    print(cat)
     if len(cat) == 0:
         await ctx.send(embed=menu_helper())
     else:
