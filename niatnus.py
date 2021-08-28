@@ -44,8 +44,9 @@ async def 뭐먹지(ctx, *cat):
             menus = []
             for k, v in foods.items():
                 menus += v
-            print(menus)
             result = menus[random.randrange(0, len(menus))]
+            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}를 먹어보는 게 어떨까요?')
+            await ctx.send(embed=response)
         elif cat[0] in ['특식', '찌개', '밥', '면', '국', '간편식']:
             result = foods[cat[0]][random.randrange(0, len(foods[cat[0]]))]
             response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}를 먹어보는 게 어떨까요?')
