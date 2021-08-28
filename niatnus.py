@@ -42,7 +42,7 @@ async def 뭐먹지(ctx, *cat):
     else:
         if cat[0] == '전부':
             menus = []
-            for k, v in foods:
+            for k, v in foods.items():
                 menus += v
             result = menus[random.randrange(0, len(menus))]
         elif cat[0] in ['특식', '찌개', '밥', '면', '국', '간편식']:
