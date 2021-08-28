@@ -24,4 +24,4 @@ async def 도움(ctx):
     command.add_field(name="!삭 or !a", value="!노루 명령어의 마지막 사진을 삭제(개발중)", inline=False)
     await ctx.send(embed=command)
 
-app.run(secrets['BOT']['key'])
+app.run(secrets['BOT']['token'])
