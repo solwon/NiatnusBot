@@ -37,7 +37,6 @@ async def 도움(ctx):
 
 @app.command()
 async def 뭐먹지(ctx, *cat):
-    print(cat)
     if len(cat) == 0:
         await ctx.send(embed=menu_helper())
     else:
@@ -45,6 +44,7 @@ async def 뭐먹지(ctx, *cat):
             menus = []
             for k, v in foods.items():
                 menus += v
+            print(menus)
             result = menus[random.randrange(0, len(menus))]
         elif cat[0] in ['특식', '찌개', '밥', '면', '국', '간편식']:
             result = foods[cat[0]][random.randrange(0, len(foods[cat[0]]))]
