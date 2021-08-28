@@ -1,10 +1,10 @@
 import asyncio
-
 import discord
+import json
 
 from discord.ext import commands
-app = commands.Bot(command_prefix='!',help_command = None)
-
+app = commands.Bot(command_prefix='!', help_command=None)
+secrets = json.loads(open('secrets.json').read())
 
 @app.event
 async def on_ready():
@@ -24,4 +24,4 @@ async def 도움(ctx):
     command.add_field(name="!삭 or !a", value="!노루 명령어의 마지막 사진을 삭제(개발중)", inline=False)
     await ctx.send(embed=command)
 
-app.run('클라이언트 키')
+app.run(secrets['BOT']['key'])
