@@ -65,25 +65,25 @@ async def 뭐먹지(ctx, *cat):
 async def 로또(ctx):
     context = crawler.lotto()
     response = discord.Embed(color=0x62c1cc)
-    response.add_field(name='무기', value=f"{context['w_t_name']}\n{context['w_t_ticket']:,}장\n남은 시간: {context['w_t_remain']}", inline=True)
-    response.add_field(name='방어구', value=f"{context['a_t_name']}\n{context['a_t_ticket']:,}장\n남은 시간: {context['a_t_remain']}", inline=True)
+    response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
+    response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장\n남은 시간: {context['a_t_remain']}", inline=True)
     await ctx.send(embed=response)
 
 
-@app.command(aliases=['로또무기, 무기'])
+@app.command(aliases=['로또무기', '무기'])
 async def lt(ctx):
     context = crawler.lotto()
     response = discord.Embed(color=0x62c1cc)
-    response.add_field(name='무기', value=f"{context['w_t_name']}\n{context['w_t_ticket']:,}장\n남은 시간: {context['w_t_remain']}", inline=True)
+    response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
     response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_winner']}")
     await ctx.send(embed=response)
 
 
-@app.command(aliases=['로또방어구, 방어구'])
+@app.command(aliases=['로또방어구', '방어구'])
 async def la(ctx):
     context = crawler.lotto()
     response = discord.Embed(color=0x62c1cc)
-    response.add_field(name='방어구', value=f"{context['a_t_name']}\n{context['a_t_ticket']:,}장\n남은 시간: {context['a_t_remain']}", inline=True)
+    response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장\n남은 시간: {context['a_t_remain']}", inline=True)
     response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_winner']}")
     await ctx.send(embed=response)
 
@@ -96,8 +96,8 @@ async def lotto_result():
     if now.hour in [0, 12] and now.minute == 0 and 30 <= now.second < 60:
         response = discord.Embed(color=0x62c1cc)
         context = crawler.lotto()
-        response.add_field(name='무기', value=f"{context['w_t_name']}\n{context['w_t_ticket']:,}장", inline=True)
-        response.add_field(name='방어구', value=f"{context['a_t_name']}\n{context['a_t_ticket']:,}장", inline=True)
+        response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장", inline=True)
+        response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장", inline=True)
         # 무기시간(오전9시)
         if now.hour == 0:
             response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_winner']}")
