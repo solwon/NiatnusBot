@@ -89,4 +89,5 @@ async def lotto_result():
         await app.get_guild(416174233409028096).get_channel(881222372898795580).send(embed=response)
 
 
+lotto_result.start()
 app.run(secrets['BOT']['token'])
