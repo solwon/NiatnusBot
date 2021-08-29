@@ -86,7 +86,7 @@ async def lotto_result():
             response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_winner']}")
 
         # await app.get_guild(782997633328611438).get_channel(876483410590310440).send(embed=response)
-        await app.get_guild(416174233409028096).get_channel(881222372898795580).send(embed=response)
+        await app.get_channel(881222372898795580).send(embed=response)
 
 
 lotto_result.start()
