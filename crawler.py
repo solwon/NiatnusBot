@@ -69,3 +69,11 @@ def lotto():
         'a_y_ticket': armor_y_ticket_num,
         'a_y_winner': armor_y_winner
     }
+
+
+def hath():
+    content = helper.safe_content(secrets['URL']['hath'], cookies=secrets['COOKIE'])
+    if not content:
+        return
+    soup = BeautifulSoup(content, 'html.parser')
+    hath_tables = soup.find_all('div', attrs={'style': 'float:left; width:220px'})
