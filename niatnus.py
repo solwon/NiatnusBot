@@ -2,10 +2,16 @@ import asyncio
 import random
 import discord
 import json
+import datetime
+
+import crawler
+import helper
 
 from discord.ext import commands
+
 app = commands.Bot(command_prefix='!', help_command=None)
 secrets = json.loads(open('secrets.json').read())
+# SQLite 연동해서 추가삭제 가능하도록 할 것
 foods = {
     '특식': ['불고기', '찜닭', '닭도리탕', '스테이크', '월남쌈', '수육', '아귀찜', '낚지볶음', '탕수육', '깐풍기', '족발'],
     '찌개': ['비지찌개', '고추장찌개', '오징어찌개', '순두부찌개', '청국장', '동태찌개', '된장찌개', '김치찌개', '부대찌개'],
@@ -20,7 +26,7 @@ foods = {
 async def on_ready():
     print('다음으로 로그인합니다: ')
     print(app.user.name)
-    print('connection was succesful')
+    print('connection was successful')
     await app.change_presence(status=discord.Status.online, activity=discord.Game('!도움'))
 
 
@@ -38,32 +44,30 @@ async def 도움(ctx):
 @app.command()
 async def 뭐먹지(ctx, *cat):
     if len(cat) == 0:
-        await ctx.send(embed=menu_helper())
+        await ctx.send(embed=helper.menu_helper())
     else:
         if cat[0] == '전부':
             menus = []
             for k, v in foods.items():
                 menus += v
             result = menus[random.randrange(0, len(menus))]
-            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}를 먹어보는 게 어떨까요?')
+            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}를 먹어보는 게 어떨까요?, color=0x62c1cc')
             await ctx.send(embed=response)
         elif cat[0] in ['특식', '찌개', '밥', '면', '국', '간편식']:
             result = foods[cat[0]][random.randrange(0, len(foods[cat[0]]))]
-            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}를 먹어보는 게 어떨까요?')
+            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}를 먹어보는 게 어떨까요?', color=0x62c1cc)
             await ctx.send(embed=response)
         else:
-            await ctx.send(embed=menu_helper())
+            await ctx.send(embed=helper.menu_helper())
 
 
-def menu_helper():
-    response = discord.Embed(title='뭐먹지 가이드', description='뭐먹지 <종류>로 음식 종류를 특정할 수 있습니다', color=0x008275)
-    response.add_field(name='전부', value='전체 목록에서 하나를 고릅니다', inline=False)
-    response.add_field(name='특식', value='특별한 날에 어울리는 특별한 메뉴입니다', inline=False)
-    response.add_field(name='찌개', value='찌개류 전반에서 하나를 고릅니다', inline=False)
-    response.add_field(name='밥', value='덮밥, 볶음밥, 초밥 등 밥이 주역인 메뉴입니다', inline=False)
-    response.add_field(name='면', value='더 이상의 설명이 必要韓紙?', inline=False)
-    response.add_field(name='국', value='마 딴거먹을 돈이면 국밥이 몇그릇이냐?', inline=False)
-    response.add_field(name='간편식', value='패스트푸드나 분식 등 가볍고 빠르게 먹기 좋은 메뉴입니다', inline=False)
-    return response
+@app.command(aliases=['lotto'])
+async def 로또(ctx):
+    context = crawler.lotto()
+    response = discord.Embed(color=0x62c1cc)
+    response.add_field(name='무기', value=f"{context['w_t_name']}\n{context['w_t_ticket']}장\n남은 시간: {context['w_t_remain']}", inline=True)
+    response.add_field(name='무기', value=f"{context['a_t_name']}\n{context['a_t_ticket']}장\n남은 시간: {context['a_t_remain']}", inline=True)
+    await ctx.send(embed=response)
+
 
 app.run(secrets['BOT']['token'])
