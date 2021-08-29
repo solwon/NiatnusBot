@@ -89,5 +89,10 @@ async def lotto_result():
         await app.get_channel(881222372898795580).send(embed=response)
 
 
+@lotto_result.before_loop
+async def before_loop():
+    await app.wait_until_ready()
+
+
 lotto_result.start()
 app.run(secrets['BOT']['token'])
