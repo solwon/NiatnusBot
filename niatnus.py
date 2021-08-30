@@ -113,5 +113,25 @@ async def before_loop():
     await app.wait_until_ready()
 
 
+@app.command(aliases=['해스', '헤스'])
+async def hath(ctx):
+    context = crawler.orderbook('hath')
+    response = discord.Embed(color=0x62c1cc)
+    response.add_field(name='현재 시세', value=f"구매 최고가: {context['ask_list'][0][0]}c\n판매 최고가: {context['bid_list'][0][0]}c\n최근 거래가: {context['recent']}c", inline=True)
+    response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]}c\n거래 최저가: {context['8h_stats'][1]}c\n거래 평균가: {context['8h_stats'][2]}c", inline=True)
+    response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]}c\n거래 최저가: {context['24h_stats'][1]}c\n거래 평균가: {context['24h_stats'][2]}c", inline=True)
+    await ctx.send(embed=response)
+
+
+@app.command(aliases=['지피'])
+async def gp(ctx):
+    context = crawler.orderbook('gp')
+    response = discord.Embed(color=0x62c1cc)
+    response.add_field(name='현재 시세', value=f"구매 최고가: {context['ask_list'][0][0]}c\n판매 최고가: {context['bid_list'][0][0]}c\n최근 거래가: {context['recent']}c", inline=True)
+    response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]}c\n거래 최저가: {context['8h_stats'][1]}c\n거래 평균가: {context['8h_stats'][2]}c", inline=True)
+    response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]}c\n거래 최저가: {context['24h_stats'][1]}c\n거래 평균가: {context['24h_stats'][2]}c", inline=True)
+    await ctx.send(embed=response)
+
+
 lotto_result.start()
 app.run(secrets['BOT']['token'])
