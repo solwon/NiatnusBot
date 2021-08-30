@@ -114,23 +114,95 @@ async def before_loop():
 
 
 @app.command(aliases=['해스', '헤스'])
-async def hath(ctx):
-    context = crawler.orderbook('hath')
-    response = discord.Embed(color=0x62c1cc)
-    response.add_field(name='현재 시세', value=f"구매 최고가: {context['ask_list'][0][0]}c\n판매 최고가: {context['bid_list'][0][0]}c\n최근 거래가: {context['recent']}c", inline=True)
-    response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]}c\n거래 최저가: {context['8h_stats'][1]}c\n거래 평균가: {context['8h_stats'][2]}c", inline=True)
-    response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]}c\n거래 최저가: {context['24h_stats'][1]}c\n거래 평균가: {context['24h_stats'][2]}c", inline=True)
-    await ctx.send(embed=response)
+async def hath(ctx, *action):
+    if len(action) == 0:
+        context = crawler.orderbook('hath')
+        response = discord.Embed(color=0x62c1cc)
+        response.add_field(name='현재 시세', value=f"구매 최고가: {context['ask_list'][0][0]:,}c\n판매 최고가: {context['bid_list'][0][0]:,}c\n최근 거래가: {context['recent']:,}c", inline=True)
+        response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]:,}c\n거래 최저가: {context['8h_stats'][1]:,}c\n거래 평균가: {context['8h_stats'][2]:,}c", inline=True)
+        response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]:,}c\n거래 최저가: {context['24h_stats'][1]:,}c\n거래 평균가: {context['24h_stats'][2]:,}c", inline=True)
+        await ctx.send(embed=response)
+    elif len(action) == 2:
+        if action[0] not in ['buy', 'sell'] or not action[1].isdigit():
+            return
+        context = crawler.orderbook('hath')
+        if action[0] == 'buy':
+            price_table = context['ask_list']
+            amount = int(action[1])
+            am, pr = amount, 0
+            for pair in price_table:
+                if am >= pair[1]:
+                    am -= pair[1]
+                    pr += pair[1] * pair[0]
+                else:
+                    pr += pair[1] * am
+                    am = 0
+                    break
+            response = discord.Embed(color=0x62c1cc)
+            response.add_field(name=f'{amount:,}해스를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
+            await ctx.send(embed=response)
+        elif action[0] == 'sell':
+            price_table = context['bid_list']
+            amount = int(action[1])
+            am, pr = amount, 0
+            for pair in price_table:
+                if am >= pair[1]:
+                    am -= pair[1]
+                    pr += pair[1] * pair[0]
+                else:
+                    pr += pair[1] * am
+                    am = 0
+                    break
+            pr_after_fee = int(pr * 0.99)
+            response = discord.Embed(color=0x62c1cc)
+            response.add_field(name=f'{amount:,}해스를 팔면...', value=f'{pr_after_fee:,}c(1% 수수료 미포함시 {pr:,}c를 벌 수 있습니다', inline=False)
+            await ctx.send(embed=response)
 
 
 @app.command(aliases=['지피'])
-async def gp(ctx):
-    context = crawler.orderbook('gp')
-    response = discord.Embed(color=0x62c1cc)
-    response.add_field(name='현재 시세', value=f"구매 최고가: {context['ask_list'][0][0]}c\n판매 최고가: {context['bid_list'][0][0]}c\n최근 거래가: {context['recent']}c", inline=True)
-    response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]}c\n거래 최저가: {context['8h_stats'][1]}c\n거래 평균가: {context['8h_stats'][2]}c", inline=True)
-    response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]}c\n거래 최저가: {context['24h_stats'][1]}c\n거래 평균가: {context['24h_stats'][2]}c", inline=True)
-    await ctx.send(embed=response)
+async def gp(ctx, *action):
+    if len(action) == 0:
+        context = crawler.orderbook('gp')
+        response = discord.Embed(color=0x62c1cc)
+        response.add_field(name='현재 시세', value=f"구매 최고가: {context['ask_list'][0][0]}c\n판매 최고가: {context['bid_list'][0][0]}c\n최근 거래가: {context['recent']}c", inline=True)
+        response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]}c\n거래 최저가: {context['8h_stats'][1]}c\n거래 평균가: {context['8h_stats'][2]}c", inline=True)
+        response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]}c\n거래 최저가: {context['24h_stats'][1]}c\n거래 평균가: {context['24h_stats'][2]}c", inline=True)
+        await ctx.send(embed=response)
+    elif len(action) == 2:
+        if action[0] not in ['buy', 'sell'] or not action[1].isdigit():
+            return
+        context = crawler.orderbook('gp')
+        if action[0] == 'buy':
+            price_table = context['ask_list']
+            amount = int(action[1])
+            am, pr = amount, 0
+            for pair in price_table:
+                if am >= pair[1]:
+                    am -= pair[1]
+                    pr += pair[1] * pair[0]
+                else:
+                    pr += pair[1] * am
+                    am = 0
+                    break
+            response = discord.Embed(color=0x62c1cc)
+            response.add_field(name=f'{amount:,}GP를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
+            await ctx.send(embed=response)
+        elif action[0] == 'sell':
+            price_table = context['bid_list']
+            amount = int(action[1])
+            am, pr = amount, 0
+            for pair in price_table:
+                if am >= pair[1]:
+                    am -= pair[1]
+                    pr += pair[1] * pair[0]
+                else:
+                    pr += pair[1] * am
+                    am = 0
+                    break
+            pr_after_fee = int(pr * 0.99)
+            response = discord.Embed(color=0x62c1cc)
+            response.add_field(name=f'{amount:,}GP를 팔면...', value=f'{pr_after_fee:,}c(1% 수수료 미포함시 {pr:,}c를 벌 수 있습니다', inline=False)
+            await ctx.send(embed=response)
 
 
 lotto_result.start()
