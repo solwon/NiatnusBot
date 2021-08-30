@@ -98,6 +98,8 @@ def orderbook(curr):
             price = int(re.sub('\D', '', asks[i].string))
             temp.insert(0, price)
             ask_list.append(temp)
+    print(bid_list)
+    print(ask_list)
 
     stats = soup.find_all('div', attrs={'style': 'float:left; width:449px'})
     stats_8h = stats[0].select_one('div')
