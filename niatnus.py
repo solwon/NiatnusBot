@@ -32,7 +32,7 @@ async def on_ready():
 
 @app.command()
 async def 도움(ctx):
-    command = discord.Embed(title='명령어', description='명령어 목록', color=0x62c1cc)
+    command = discord.Embed(title='명령어', description='명령어 목록', color=helper.EMBED_COLOR)
     command.add_field(name='!안뇽', value='헬로 펭귄 출력', inline=False)
     command.add_field(name='!안녕', value='바이 펭귄 출력', inline=False)
     command.add_field(name='!해명해', value='해명해콘 출력', inline=False)
@@ -51,11 +51,11 @@ async def 뭐먹지(ctx, *cat):
             for k, v in foods.items():
                 menus += v
             result = menus[random.randrange(0, len(menus))]
-            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}를 먹어보는 게 어떨까요?, color=0x62c1cc')
+            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}를 먹어보는 게 어떨까요?, color=helper.EMBED_COLOR')
             await ctx.send(embed=response)
         elif cat[0] in ['특식', '찌개', '밥', '면', '국', '간편식']:
             result = foods[cat[0]][random.randrange(0, len(foods[cat[0]]))]
-            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}를 먹어보는 게 어떨까요?', color=0x62c1cc)
+            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}를 먹어보는 게 어떨까요?', color=helper.EMBED_COLOR)
             await ctx.send(embed=response)
         else:
             await ctx.send(embed=helper.menu_helper())
@@ -64,7 +64,7 @@ async def 뭐먹지(ctx, *cat):
 @app.command(aliases=['lotto'])
 async def 로또(ctx):
     context = crawler.lotto()
-    response = discord.Embed(color=0x62c1cc)
+    response = discord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
     response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장\n남은 시간: {context['a_t_remain']}", inline=True)
     await ctx.send(embed=response)
@@ -73,7 +73,7 @@ async def 로또(ctx):
 @app.command(aliases=['로또무기', '무기'])
 async def lt(ctx):
     context = crawler.lotto()
-    response = discord.Embed(color=0x62c1cc)
+    response = discord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
     response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_winner']}")
     await ctx.send(embed=response)
@@ -82,7 +82,7 @@ async def lt(ctx):
 @app.command(aliases=['로또방어구', '방어구'])
 async def la(ctx):
     context = crawler.lotto()
-    response = discord.Embed(color=0x62c1cc)
+    response = discord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장\n남은 시간: {context['a_t_remain']}", inline=True)
     response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_winner']}")
     await ctx.send(embed=response)
@@ -94,7 +94,7 @@ async def lotto_result():
     now = datetime.datetime.now()
     # if True:
     if now.hour in [0, 12] and now.minute == 0 and 30 <= now.second < 60:
-        response = discord.Embed(color=0x62c1cc)
+        response = discord.Embed(color=helper.EMBED_COLOR)
         context = crawler.lotto()
         response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장", inline=True)
         response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장", inline=True)
@@ -111,7 +111,7 @@ async def lotto_result():
 
 @app.command(aliases=['속성', '요일'])
 async def 요일속성(ctx):
-    response = discord.Embed(color=0x62c1cc)
+    response = discord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 피해가 10% 증가합니다', inline=False)
     await ctx.send(embed=response)
 
@@ -143,7 +143,7 @@ async def before_loop():
 async def hath(ctx, *action):
     if len(action) == 0:
         context = crawler.orderbook('hath')
-        response = discord.Embed(color=0x62c1cc)
+        response = discord.Embed(color=helper.EMBED_COLOR)
         response.add_field(name='현재 시세', value=f"구매 최고가: {context['ask_list'][0][0]:,}c\n판매 최고가: {context['bid_list'][0][0]:,}c\n최근 거래가: {context['recent']:,}c", inline=True)
         response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]:,}c\n거래 최저가: {context['8h_stats'][1]:,}c\n거래 평균가: {context['8h_stats'][2]:,}c", inline=True)
         response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]:,}c\n거래 최저가: {context['24h_stats'][1]:,}c\n거래 평균가: {context['24h_stats'][2]:,}c", inline=True)
@@ -164,7 +164,7 @@ async def hath(ctx, *action):
                     pr += pair[0] * am
                     am = 0
                     break
-            response = discord.Embed(color=0x62c1cc)
+            response = discord.Embed(color=helper.EMBED_COLOR)
             response.add_field(name=f'{amount:,}해스를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
             await ctx.send(embed=response)
         elif action[0] == 'sell':
@@ -180,7 +180,7 @@ async def hath(ctx, *action):
                     am = 0
                     break
             pr_after_fee = int(pr * 0.99)
-            response = discord.Embed(color=0x62c1cc)
+            response = discord.Embed(color=helper.EMBED_COLOR)
             response.add_field(name=f'{amount:,}해스를 팔면...', value=f'{pr_after_fee:,}c(1% 수수료 미포함시 {pr:,}c를 벌 수 있습니다', inline=False)
             await ctx.send(embed=response)
 
@@ -189,7 +189,7 @@ async def hath(ctx, *action):
 async def gp(ctx, *action):
     if len(action) == 0:
         context = crawler.orderbook('gp')
-        response = discord.Embed(color=0x62c1cc)
+        response = discord.Embed(color=helper.EMBED_COLOR)
         response.add_field(name='현재 시세', value=f"구매 최고가: {context['ask_list'][0][0]}c\n판매 최고가: {context['bid_list'][0][0]}c\n최근 거래가: {context['recent']}c", inline=True)
         response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]}c\n거래 최저가: {context['8h_stats'][1]}c\n거래 평균가: {context['8h_stats'][2]}c", inline=True)
         response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]}c\n거래 최저가: {context['24h_stats'][1]}c\n거래 평균가: {context['24h_stats'][2]}c", inline=True)
@@ -207,11 +207,11 @@ async def gp(ctx, *action):
                     am -= pair[1]
                     pr += pair[1] * pair[0]
                 else:
-                    pr += pair[1] * am
+                    pr += pair[0] * am
                     am = 0
                     break
-            response = discord.Embed(color=0x62c1cc)
-            response.add_field(name=f'{amount:,}GP를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
+            response = discord.Embed(color=helper.EMBED_COLOR)
+            response.add_field(name=f'{amount:,}kGP를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
             await ctx.send(embed=response)
         elif action[0] == 'sell':
             price_table = context['bid_list']
@@ -222,13 +222,20 @@ async def gp(ctx, *action):
                     am -= pair[1]
                     pr += pair[1] * pair[0]
                 else:
-                    pr += pair[1] * am
+                    pr += pair[0] * am
                     am = 0
                     break
             pr_after_fee = int(pr * 0.99)
-            response = discord.Embed(color=0x62c1cc)
-            response.add_field(name=f'{amount:,}GP를 팔면...', value=f'{pr_after_fee:,}c(1% 수수료 미포함시 {pr:,}c를 벌 수 있습니다', inline=False)
+            response = discord.Embed(color=helper.EMBED_COLOR)
+            response.add_field(name=f'{amount:,}kGP를 팔면...', value=f'{pr_after_fee:,}c(1% 수수료 미포함시 {pr:,}c를 벌 수 있습니다', inline=False)
             await ctx.send(embed=response)
+
+
+@app.event
+async def on_message(ctx, message):
+    if any(bad_word in message for bad_word in helper.BAN_WORDS) and any(exception not in message for exception in helper.BAN_EXCEPTIONS):
+        await message.delete()
+        await ctx.send(f'{message.author.mention} - 금지어 사용에 주의해주세요', delete_after=3)
 
 
 lotto_result.start()

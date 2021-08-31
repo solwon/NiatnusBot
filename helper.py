@@ -2,6 +2,10 @@ import requests
 import datetime
 import discord
 
+EMBED_COLOR = 0x62c1cc
+BAN_WORDS = ['h@h', 'h&h', '변태집', 'hentai@home', 'e-hentai', 'exhentai', '이헨', '익헨']
+BAN_EXCEPTIONS = ['forum.e-hentai.org']
+
 
 def log(cat, message):
     now = datetime.datetime.now()
@@ -22,7 +26,7 @@ def safe_content(url, cookies):
 
 
 def menu_helper():
-    response = discord.Embed(title='뭐먹지 가이드', description='뭐먹지 <종류>로 음식 종류를 특정할 수 있습니다', color=0x008275)
+    response = discord.Embed(title='뭐먹지 가이드', description='뭐먹지 <종류>로 음식 종류를 특정할 수 있습니다', color=0x62c1cc)
     response.add_field(name='전부', value='전체 목록에서 하나를 고릅니다', inline=False)
     response.add_field(name='특식', value='특별한 날에 어울리는 특별한 메뉴입니다', inline=False)
     response.add_field(name='찌개', value='찌개류 전반에서 하나를 고릅니다', inline=False)
