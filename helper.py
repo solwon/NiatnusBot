@@ -5,14 +5,16 @@ import discord
 
 def log(cat, message):
     now = datetime.datetime.now()
-    with open('log.txt', 'w+') as f:
+    with open('log.log', 'w+') as f:
         print(f'[{now.year}-{now.month}-{now.day} {now.hour}:{now.minute}:{now.second}] {cat.upper}: {message}')
         f.write(f'[{now.year}-{now.month}-{now.day} {now.hour}:{now.minute}:{now.second}] {cat.upper}: {message}')
 
 
 def safe_content(url, cookies):
-    response = requests.get(url, cookies=cookies)
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36'}
+    response = requests.get(url, cookies=cookies, headers=headers)
     if response.status_code == 200:
+        log('info', 'Successfully got response')
         return response.content
     else:
         log('error', 'Connection could not be established')

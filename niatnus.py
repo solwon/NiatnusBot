@@ -100,12 +100,38 @@ async def lotto_result():
         response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장", inline=True)
         # 무기시간(오전9시)
         if now.hour == 0:
-            response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_winner']}")
+            response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_winner']}", inline=True)
+            response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 피해가 10% 증가합니다', inline=False)
         else:
-            response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_winner']}")
+            response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_winner']}", inline=True)
 
         # await app.get_channel(876483410590310440).send(embed=response)  # 헨번방 general
         await app.get_channel(881222372898795580).send(embed=response)  # 테스트용 채널
+
+
+@app.command(aliases=['속성', '요일'])
+async def 요일속성(ctx):
+    response = discord.Embed(color=0x62c1cc)
+    response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 피해가 10% 증가합니다', inline=False)
+    await ctx.send(embed=response)
+
+
+def weekday_attribute():
+    weekday = datetime.date.today().weekday()
+    if weekday == 0:
+        return '암흑'
+    elif weekday == 1:
+        return '불'
+    elif weekday == 2:
+        return '얼음'
+    elif weekday == 3:
+        return '바람'
+    elif weekday == 4:
+        return '모든'
+    elif weekday == 5:
+        return '전기'
+    else:
+        return '신성'
 
 
 @lotto_result.before_loop
@@ -135,7 +161,7 @@ async def hath(ctx, *action):
                     am -= pair[1]
                     pr += pair[1] * pair[0]
                 else:
-                    pr += pair[1] * am
+                    pr += pair[0] * am
                     am = 0
                     break
             response = discord.Embed(color=0x62c1cc)
@@ -150,7 +176,7 @@ async def hath(ctx, *action):
                     am -= pair[1]
                     pr += pair[1] * pair[0]
                 else:
-                    pr += pair[1] * am
+                    pr += pair[0] * am
                     am = 0
                     break
             pr_after_fee = int(pr * 0.99)
