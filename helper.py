@@ -5,9 +5,9 @@ import discord
 
 def log(cat, message):
     now = datetime.datetime.now()
-    with open('log.log', 'w+') as f:
-        print(f'[{now.year}-{now.month}-{now.day} {now.hour}:{now.minute}:{now.second}] {cat.upper}: {message}')
-        f.write(f'[{now.year}-{now.month}-{now.day} {now.hour}:{now.minute}:{now.second}] {cat.upper}: {message}')
+    with open('log.log', 'a+') as f:
+        print(f'[{now.year}-{now.month}-{now.day} {now.hour}:{now.minute}:{now.second}] {cat.upper()}: {message}')
+        f.write(f'[{now.year}-{now.month}-{now.day} {now.hour}:{now.minute}:{now.second}] {cat.upper()}: {message}\n')
 
 
 def safe_content(url, cookies):
