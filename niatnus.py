@@ -32,8 +32,8 @@ async def on_ready():
 
 @app.command()
 async def 도움(ctx):
-    command = discord.Embed(title='명령어', description='명령어 목록', color=helper.EMBED_COLOR)
-    command.add_field(name='!안뇽', value='헬로 펭귄 출력', inline=False)
+    command = discord.Embed(title='니앗누스봇 매뉴얼', color=helper.EMBED_COLOR)
+    command.add_field(name='!lotto, !로또', value='헬로 펭귄 출력', inline=False)
     command.add_field(name='!안녕', value='바이 펭귄 출력', inline=False)
     command.add_field(name='!해명해', value='해명해콘 출력', inline=False)
     command.add_field(name='!노루', value='ex)!노루 ooo > ooo를 구글 이미지 검색 후 출력', inline=False)
@@ -236,6 +236,7 @@ async def on_message(message):
     if any(bad_word in message.content.lower() for bad_word in helper.BAN_WORDS) and any(exception not in message.content.lower() for exception in helper.BAN_EXCEPTIONS):
         await message.channel.send(f'{message.author.mention} - 금지어 사용에 주의해주세요', delete_after=3)
         await message.delete()
+        await app.process_commands(message)
 
 
 lotto_result.start()
