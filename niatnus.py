@@ -32,13 +32,16 @@ async def on_ready():
 
 @app.command()
 async def 도움(ctx):
-    command = discord.Embed(title='니앗누스봇 매뉴얼', color=helper.EMBED_COLOR)
-    command.add_field(name='!lotto, !로또', value='헬로 펭귄 출력', inline=False)
-    command.add_field(name='!안녕', value='바이 펭귄 출력', inline=False)
-    command.add_field(name='!해명해', value='해명해콘 출력', inline=False)
-    command.add_field(name='!노루', value='ex)!노루 ooo > ooo를 구글 이미지 검색 후 출력', inline=False)
-    command.add_field(name='!삭 or !a', value='!노루 명령어의 마지막 사진을 삭제(개발중)', inline=False)
-    await ctx.send(embed=command)
+    response = discord.Embed(title='니앗누스봇 매뉴얼', description='기능 관련 문의는 쿠루링빵에게', color=helper.EMBED_COLOR)
+    response.add_field(name='UTC 0시(한국시간 9시)', value='새로운 무기와 방어구, 어제자 무기 로또 정보를 출력합니다', inline=False)
+    response.add_field(name='UTC 12시(한국시간 21시)', value='무기와 새로운 방어구, 어제자 방어구 로또 정보를 출력합니다', inline=False)
+    response.add_field(name='!lotto, !로또', value='무기와 방어구 로또 품목, 판매 수량, 남은 시간을 출력합니다', inline=False)
+    response.add_field(name='!lt, !로또무기, !무기', value='오늘자 무기 로또 정보와 어제자 우승자를 출력합니다', inline=False)
+    response.add_field(name='!la, !로또방어구, !방어구', value='오늘자 방어구 로또 정보와 어제자 우승자를 출력합니다', inline=False)
+    response.add_field(name='!요일, !속성, !요일속성', value='오늘의 버프 속성을 출력하며 적 아군 상관 없이 해당 속성 피해가 10% 증가합니다', inline=False)
+    response.add_field(name='!해스, !헤스, !hath (buy/삼/sell/팜 수량)', value='아무런 인수가 없을 경우 시세 정보를, 거래 종류와 수량을 함꼐 입력 시 비용 예상을 해 줍니다', inline=False)
+    response.add_field(name='!지피, !gp (buy/삼/sell/팜 수량)', value='해스 대신 GP로 같은 기능을 합니다', inline=False)
+    await ctx.send(embed=response)
 
 
 @app.command()
@@ -195,10 +198,10 @@ async def gp(ctx, *action):
         response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]}c\n거래 최저가: {context['24h_stats'][1]}c\n거래 평균가: {context['24h_stats'][2]}c", inline=True)
         await ctx.send(embed=response)
     elif len(action) == 2:
-        if action[0] not in ['buy', 'sell'] or not action[1].isdigit():
+        if action[0] not in ['buy', 'sell', '삼', '팜'] or not action[1].isdigit():
             return
         context = crawler.orderbook('gp')
-        if action[0] == 'buy':
+        if action[0] in ['buy', '삼']:
             price_table = context['ask_list']
             amount = int(action[1])
             am, pr = amount, 0
@@ -213,7 +216,7 @@ async def gp(ctx, *action):
             response = discord.Embed(color=helper.EMBED_COLOR)
             response.add_field(name=f'{amount:,}kGP를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
             await ctx.send(embed=response)
-        elif action[0] == 'sell':
+        elif action[0] in ['sell', '팜']:
             price_table = context['bid_list']
             amount = int(action[1])
             am, pr = amount, 0
