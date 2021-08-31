@@ -232,10 +232,10 @@ async def gp(ctx, *action):
 
 
 @app.event
-async def on_message(ctx, message):
+async def on_message(message):
     if any(bad_word in message for bad_word in helper.BAN_WORDS) and any(exception not in message for exception in helper.BAN_EXCEPTIONS):
+        await message.channel.send(f'{message.author.mention} - 금지어 사용에 주의해주세요', delete_after=3)
         await message.delete()
-        await ctx.send(f'{message.author.mention} - 금지어 사용에 주의해주세요', delete_after=3)
 
 
 lotto_result.start()
