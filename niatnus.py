@@ -154,6 +154,8 @@ async def hath(ctx, *action):
     elif len(action) == 2:
         if action[0] not in ['buy', 'sell', '삼', '팜'] or not action[1].isdigit():
             return
+        elif int(action[1]) == 0:
+            return
         context = crawler.orderbook('hath')
         if action[0] in ['buy', '삼']:
             response = discord.Embed(color=helper.EMBED_COLOR)
@@ -208,6 +210,8 @@ async def gp(ctx, *action):
         await ctx.send(embed=response)
     elif len(action) == 2:
         if action[0] not in ['buy', 'sell', '삼', '팜'] or not action[1].isdigit():
+            return
+        elif int(action[1]) == 0:
             return
         context = crawler.orderbook('gp')
         if action[0] in ['buy', '삼']:
