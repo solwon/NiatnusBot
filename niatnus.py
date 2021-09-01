@@ -108,8 +108,8 @@ async def lotto_result():
         else:
             response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_winner']}", inline=True)
 
-        # await app.get_channel(876483410590310440).send(embed=response)  # 헨번방 general
-        await app.get_channel(881222372898795580).send(embed=response)  # 테스트용 채널
+        await app.get_channel(876483410590310440).send(embed=response)  # 헨번방 general
+        # await app.get_channel(881222372898795580).send(embed=response)  # 테스트용 채널
 
 
 @app.command(aliases=['속성', '요일'])
