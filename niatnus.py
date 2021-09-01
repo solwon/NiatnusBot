@@ -78,7 +78,7 @@ async def lt(ctx):
     context = crawler.lotto()
     response = discord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
-    response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_ticket']:,}장\n{context['w_y_winner']}")
+    response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{int(context['w_y_ticket']):,}장\n{context['w_y_winner']}")
     await ctx.send(embed=response)
 
 
@@ -87,7 +87,7 @@ async def la(ctx):
     context = crawler.lotto()
     response = discord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장\n남은 시간: {context['a_t_remain']}", inline=True)
-    response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_ticket']:,}장\n{context['a_y_winner']}")
+    response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{int(context['a_y_ticket']):,}장\n{context['a_y_winner']}")
     await ctx.send(embed=response)
 
 
@@ -103,10 +103,10 @@ async def lotto_result():
         response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장", inline=True)
         # 무기시간(오전9시)
         if now.hour == 0:
-            response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_ticket']}장\n{context['w_y_winner']}", inline=True)
+            response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{int(context['w_y_ticket']):,}장\n{context['w_y_winner']}", inline=True)
             response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 피해가 10% 증가합니다', inline=False)
         else:
-            response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_ticket']}장\n{context['a_y_winner']}", inline=True)
+            response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{int(context['a_y_ticket']):,}장\n{context['a_y_winner']}", inline=True)
 
         await app.get_channel(876483410590310440).send(embed=response)  # 헨번방 general
         # await app.get_channel(881222372898795580).send(embed=response)  # 테스트용 채널
