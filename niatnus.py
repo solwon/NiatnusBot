@@ -27,11 +27,11 @@ async def on_ready():
     print('다음으로 로그인합니다: ')
     print(app.user.name)
     print('connection was successful')
-    await app.change_presence(status=discord.Status.online, activity=discord.Game('!도움'))
+    await app.change_presence(status=discord.Status.online, activity=discord.Game('!도움말'))
 
 
 @app.command()
-async def 도움(ctx):
+async def 도움말(ctx):
     response = discord.Embed(title='니앗누스봇 매뉴얼', description='기능 관련 문의는 쿠루링빵에게', color=helper.EMBED_COLOR)
     response.add_field(name='UTC 0시(한국시간 9시)', value='새로운 무기와 방어구, 어제자 무기 로또 정보를 출력합니다', inline=False)
     response.add_field(name='UTC 12시(한국시간 21시)', value='무기와 새로운 방어구, 어제자 방어구 로또 정보를 출력합니다', inline=False)
