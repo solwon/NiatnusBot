@@ -33,7 +33,7 @@ def lotto():
     armor_name_today = soup.select_one('#lottery_eqname').string
     tickets_str = soup.select_one('#rightpane>div:nth-child(5)').string
     armor_ticket_num = tickets_str.split(' ')[4]
-    armor_expiry = datetime.datetime(now.year, now.month, now.day, 12) + datetime.timedelta(days=1)
+    armor_expiry = datetime.datetime(now.year, now.month, now.day, 12)
     armor_remain_time = str(armor_expiry - now).split('.')[0]
 
     # lotto yesterday

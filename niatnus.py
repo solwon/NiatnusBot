@@ -78,7 +78,7 @@ async def lt(ctx):
     context = crawler.lotto()
     response = discord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
-    response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_ticket']}장\n{context['w_y_winner']}")
+    response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_ticket']:,}장\n{context['w_y_winner']}")
     await ctx.send(embed=response)
 
 
@@ -87,7 +87,7 @@ async def la(ctx):
     context = crawler.lotto()
     response = discord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장\n남은 시간: {context['a_t_remain']}", inline=True)
-    response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_ticket']}\n{context['a_y_winner']}")
+    response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_ticket']:,}장\n{context['a_y_winner']}")
     await ctx.send(embed=response)
 
 
@@ -225,10 +225,10 @@ async def gp(ctx, *action):
                         pr += pair[0] * am
                         am = 0
                         break
-                response.add_field(name=f'{amount:,}GP를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
+                response.add_field(name=f'{amount:,}kGP를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
             else:
-                response.add_field(name=f'{amount:,}GP를 살 수 없습니다',
-                                   value=f'{am_max:,}GP를 {pr_max:,}c에 살 수 있지만 그 이상은 매도 주문이 부족합니다.', inline=False)
+                response.add_field(name=f'{amount:,}kGP를 살 수 없습니다',
+                                   value=f'{am_max:,}kGP를 {pr_max:,}c에 살 수 있지만 그 이상은 매도 주문이 부족합니다.', inline=False)
             await ctx.send(embed=response)
         elif action[0] in ['sell', '팜']:
             response = discord.Embed(color=helper.EMBED_COLOR)
@@ -246,12 +246,12 @@ async def gp(ctx, *action):
                         am = 0
                         break
                 pr_after_fee = int(pr * 0.99)
-                response.add_field(name=f'{amount:,}GP를 팔면...',
+                response.add_field(name=f'{amount:,}kGP를 팔면...',
                                    value=f'{pr_after_fee:,}c(1% 수수료 미포함 시 {pr:,}c)를 벌 수 있습니다', inline=False)
             else:
                 pr_after_fee = int(pr_max * 0.99)
-                response.add_field(name=f'{amount:,}GP를 팔 수 없습니다',
-                                   value=f'{am_max:,}GP를 팔아 {pr_after_fee:,}c(1% 수수료 미포함 시 {pr_max:,}c)를 벌 수 있지만 그 이상은 매수 주문이 부족합니다.',
+                response.add_field(name=f'{amount:,}kGP를 팔 수 없습니다',
+                                   value=f'{am_max:,}kGP를 팔아 {pr_after_fee:,}c(1% 수수료 미포함 시 {pr_max:,}c)를 벌 수 있지만 그 이상은 매수 주문이 부족합니다.',
                                    inline=False)
             await ctx.send(embed=response)
 
