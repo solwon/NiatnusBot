@@ -78,7 +78,7 @@ async def lt(ctx):
     context = crawler.lotto()
     response = discord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
-    response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_winner']}")
+    response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_ticket']}장\n{context['w_y_winner']}")
     await ctx.send(embed=response)
 
 
@@ -87,7 +87,7 @@ async def la(ctx):
     context = crawler.lotto()
     response = discord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장\n남은 시간: {context['a_t_remain']}", inline=True)
-    response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_winner']}")
+    response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_ticket']}\n{context['a_y_winner']}")
     await ctx.send(embed=response)
 
 
@@ -103,10 +103,10 @@ async def lotto_result():
         response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장", inline=True)
         # 무기시간(오전9시)
         if now.hour == 0:
-            response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_winner']}", inline=True)
+            response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{context['w_y_ticket']}장\n{context['w_y_winner']}", inline=True)
             response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 피해가 10% 증가합니다', inline=False)
         else:
-            response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_winner']}", inline=True)
+            response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{context['a_y_ticket']}장\n{context['a_y_winner']}", inline=True)
 
         await app.get_channel(876483410590310440).send(embed=response)  # 헨번방 general
         # await app.get_channel(881222372898795580).send(embed=response)  # 테스트용 채널
@@ -147,44 +147,53 @@ async def hath(ctx, *action):
     if len(action) == 0:
         context = crawler.orderbook('hath')
         response = discord.Embed(color=helper.EMBED_COLOR)
-        response.add_field(name='현재 시세', value=f"구매 최고가: {context['ask_list'][0][0]:,}c\n판매 최고가: {context['bid_list'][0][0]:,}c\n최근 거래가: {context['recent']:,}c", inline=True)
+        response.add_field(name='현재 시세', value=f"매수 최고가: {context['ask_list'][0][0]:,}c\n매도 최저가: {context['bid_list'][0][0]:,}c\n최근 거래가: {context['recent']:,}c", inline=True)
         response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]:,}c\n거래 최저가: {context['8h_stats'][1]:,}c\n거래 평균가: {context['8h_stats'][2]:,}c", inline=True)
         response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]:,}c\n거래 최저가: {context['24h_stats'][1]:,}c\n거래 평균가: {context['24h_stats'][2]:,}c", inline=True)
         await ctx.send(embed=response)
     elif len(action) == 2:
-        if action[0] not in ['buy', 'sell'] or not action[1].isdigit():
+        if action[0] not in ['buy', 'sell', '삼', '팜'] or not action[1].isdigit():
             return
         context = crawler.orderbook('hath')
-        if action[0] == 'buy':
+        if action[0] in ['buy', '삼']:
+            response = discord.Embed(color=helper.EMBED_COLOR)
             price_table = context['ask_list']
             amount = int(action[1])
+            am_max, pr_max = sum([pair[1] for pair in price_table]), sum([pair[0] * pair[1] for pair in price_table])
             am, pr = amount, 0
-            for pair in price_table:
-                if am >= pair[1]:
-                    am -= pair[1]
-                    pr += pair[1] * pair[0]
-                else:
-                    pr += pair[0] * am
-                    am = 0
-                    break
-            response = discord.Embed(color=helper.EMBED_COLOR)
-            response.add_field(name=f'{amount:,}해스를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
+            if amount <= am_max:
+                for pair in price_table:
+                    if am >= pair[1]:
+                        am -= pair[1]
+                        pr += pair[1] * pair[0]
+                    else:
+                        pr += pair[0] * am
+                        am = 0
+                        break
+                response.add_field(name=f'{amount:,}해스를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
+            else:
+                response.add_field(name=f'{amount:,}해스를 살 수 없습니다', value=f'{am_max:,}해스를 {pr_max:,}c에 살 수 있지만 그 이상은 매도 주문이 부족합니다.', inline=False)
             await ctx.send(embed=response)
-        elif action[0] == 'sell':
+        elif action[0] in ['sell', '팜']:
+            response = discord.Embed(color=helper.EMBED_COLOR)
             price_table = context['bid_list']
             amount = int(action[1])
-            am, pr = amount, 0
-            for pair in price_table:
-                if am >= pair[1]:
-                    am -= pair[1]
-                    pr += pair[1] * pair[0]
-                else:
-                    pr += pair[0] * am
-                    am = 0
-                    break
-            pr_after_fee = int(pr * 0.99)
-            response = discord.Embed(color=helper.EMBED_COLOR)
-            response.add_field(name=f'{amount:,}해스를 팔면...', value=f'{pr_after_fee:,}c(1% 수수료 미포함시 {pr:,}c를 벌 수 있습니다', inline=False)
+            am_max, pr_max = sum([pair[1] for pair in price_table]), sum([pair[0] * pair[1] for pair in price_table])
+            if amount <= am_max:
+                am, pr = amount, 0
+                for pair in price_table:
+                    if am >= pair[1]:
+                        am -= pair[1]
+                        pr += pair[1] * pair[0]
+                    else:
+                        pr += pair[0] * am
+                        am = 0
+                        break
+                pr_after_fee = int(pr * 0.99)
+                response.add_field(name=f'{amount:,}해스를 팔면...', value=f'{pr_after_fee:,}c(1% 수수료 미포함 시 {pr:,}c)를 벌 수 있습니다', inline=False)
+            else:
+                pr_after_fee = int(pr_max * 0.99)
+                response.add_field(name=f'{amount:,}해스를 팔 수 없습니다', value=f'{am_max:,}해스를 팔아 {pr_after_fee:,}c(1% 수수료 미포함 시 {pr_max:,}c)를 벌 수 있지만 그 이상은 매수 주문이 부족합니다.', inline=False)
             await ctx.send(embed=response)
 
 
@@ -193,7 +202,7 @@ async def gp(ctx, *action):
     if len(action) == 0:
         context = crawler.orderbook('gp')
         response = discord.Embed(color=helper.EMBED_COLOR)
-        response.add_field(name='현재 시세', value=f"구매 최고가: {context['ask_list'][0][0]}c\n판매 최고가: {context['bid_list'][0][0]}c\n최근 거래가: {context['recent']}c", inline=True)
+        response.add_field(name='현재 시세', value=f"매수 최고가: {context['ask_list'][0][0]}c\n매도 최저가: {context['bid_list'][0][0]}c\n최근 거래가: {context['recent']}c", inline=True)
         response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]}c\n거래 최저가: {context['8h_stats'][1]}c\n거래 평균가: {context['8h_stats'][2]}c", inline=True)
         response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]}c\n거래 최저가: {context['24h_stats'][1]}c\n거래 평균가: {context['24h_stats'][2]}c", inline=True)
         await ctx.send(embed=response)
@@ -202,36 +211,56 @@ async def gp(ctx, *action):
             return
         context = crawler.orderbook('gp')
         if action[0] in ['buy', '삼']:
+            response = discord.Embed(color=helper.EMBED_COLOR)
             price_table = context['ask_list']
             amount = int(action[1])
+            am_max, pr_max = sum([pair[1] for pair in price_table]), sum([pair[0] * pair[1] for pair in price_table])
             am, pr = amount, 0
-            for pair in price_table:
-                if am >= pair[1]:
-                    am -= pair[1]
-                    pr += pair[1] * pair[0]
-                else:
-                    pr += pair[0] * am
-                    am = 0
-                    break
-            response = discord.Embed(color=helper.EMBED_COLOR)
-            response.add_field(name=f'{amount:,}kGP를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
+            if amount <= am_max:
+                for pair in price_table:
+                    if am >= pair[1]:
+                        am -= pair[1]
+                        pr += pair[1] * pair[0]
+                    else:
+                        pr += pair[0] * am
+                        am = 0
+                        break
+                response.add_field(name=f'{amount:,}GP를 사기 위해서는...', value=f'{pr:,}c가 필요합니다', inline=False)
+            else:
+                response.add_field(name=f'{amount:,}GP를 살 수 없습니다',
+                                   value=f'{am_max:,}GP를 {pr_max:,}c에 살 수 있지만 그 이상은 매도 주문이 부족합니다.', inline=False)
             await ctx.send(embed=response)
         elif action[0] in ['sell', '팜']:
+            response = discord.Embed(color=helper.EMBED_COLOR)
             price_table = context['bid_list']
             amount = int(action[1])
-            am, pr = amount, 0
-            for pair in price_table:
-                if am >= pair[1]:
-                    am -= pair[1]
-                    pr += pair[1] * pair[0]
-                else:
-                    pr += pair[0] * am
-                    am = 0
-                    break
-            pr_after_fee = int(pr * 0.99)
-            response = discord.Embed(color=helper.EMBED_COLOR)
-            response.add_field(name=f'{amount:,}kGP를 팔면...', value=f'{pr_after_fee:,}c(1% 수수료 미포함시 {pr:,}c를 벌 수 있습니다', inline=False)
+            am_max, pr_max = sum([pair[1] for pair in price_table]), sum([pair[0] * pair[1] for pair in price_table])
+            if amount <= am_max:
+                am, pr = amount, 0
+                for pair in price_table:
+                    if am >= pair[1]:
+                        am -= pair[1]
+                        pr += pair[1] * pair[0]
+                    else:
+                        pr += pair[0] * am
+                        am = 0
+                        break
+                pr_after_fee = int(pr * 0.99)
+                response.add_field(name=f'{amount:,}GP를 팔면...',
+                                   value=f'{pr_after_fee:,}c(1% 수수료 미포함 시 {pr:,}c)를 벌 수 있습니다', inline=False)
+            else:
+                pr_after_fee = int(pr_max * 0.99)
+                response.add_field(name=f'{amount:,}GP를 팔 수 없습니다',
+                                   value=f'{am_max:,}GP를 팔아 {pr_after_fee:,}c(1% 수수료 미포함 시 {pr_max:,}c)를 벌 수 있지만 그 이상은 매수 주문이 부족합니다.',
+                                   inline=False)
             await ctx.send(embed=response)
+
+
+@app.command()
+async def 유네뾰이(ctx):
+    # response = discord.Embed(color=helper.EMBED_COLOR)
+    # response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+    await ctx.send(file=discord.File('yunepyoi.png'))
 
 
 @app.event
