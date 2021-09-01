@@ -38,7 +38,7 @@ async def 도움(ctx):
     response.add_field(name='!lotto, !로또', value='무기와 방어구 로또 품목, 판매 수량, 남은 시간을 출력합니다', inline=False)
     response.add_field(name='!lt, !로또무기, !무기', value='오늘자 무기 로또 정보와 어제자 우승자를 출력합니다', inline=False)
     response.add_field(name='!la, !로또방어구, !방어구', value='오늘자 방어구 로또 정보와 어제자 우승자를 출력합니다', inline=False)
-    response.add_field(name='!요일, !속성, !요일속성', value='오늘의 버프 속성을 출력하며 적 아군 상관 없이 해당 속성 피해가 10% 증가합니다', inline=False)
+    response.add_field(name='!요일, !속성, !요일속성', value='오늘의 버프 속성을 출력하며 적 아군 상관 없이 해당 속성 피해가 증가합니다', inline=False)
     response.add_field(name='!해스, !헤스, !hath (buy/삼/sell/팜 수량)', value='아무런 인수가 없을 경우 시세 정보를, 거래 종류와 수량을 함꼐 입력 시 비용 예상을 해 줍니다', inline=False)
     response.add_field(name='!지피, !gp (buy/삼/sell/팜 수량)', value='해스 대신 GP로 같은 기능을 합니다', inline=False)
     await ctx.send(embed=response)
@@ -104,7 +104,7 @@ async def lotto_result():
         # 무기시간(오전9시)
         if now.hour == 0:
             response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{int(context['w_y_ticket']):,}장\n{context['w_y_winner']}", inline=True)
-            response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 피해가 10% 증가합니다', inline=False)
+            response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 피해가 강해집니다', inline=False)
         else:
             response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{int(context['a_y_ticket']):,}장\n{context['a_y_winner']}", inline=True)
 
@@ -115,7 +115,7 @@ async def lotto_result():
 @app.command(aliases=['속성', '요일'])
 async def 요일속성(ctx):
     response = discord.Embed(color=helper.EMBED_COLOR)
-    response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 피해가 10% 증가합니다', inline=False)
+    response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 피해가 강해집니다', inline=False)
     await ctx.send(embed=response)
 
 
