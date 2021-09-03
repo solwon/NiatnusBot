@@ -264,7 +264,11 @@ async def gp(ctx, *action):
 async def 유네뾰이(ctx):
     # response = discord.Embed(color=helper.EMBED_COLOR)
     # response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-    await ctx.send(file=discord.File('yunepyoi.png'))
+    if random.random() <= 0.008:
+        yune_id = '<@!836818154868047872>'
+        await ctx.send(f'{yune_id}', file=discord.File('yunepyoi.png'))
+    else:
+        await ctx.send(file=discord.File('yunepyoi.png'))
 
 
 @app.event
