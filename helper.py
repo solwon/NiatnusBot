@@ -3,7 +3,7 @@ import datetime
 import discord
 
 EMBED_COLOR = 0x62c1cc
-BAN_WORDS = ['h@h', 'h&h', '변태집', 'hentai@home', 'e-hentai', 'exhentai', '이헨', '익헨']
+BAN_WORDS = ['h@h', 'h&h', '변태집', 'hentai@home', 'e-hentai', 'exhentai']
 BAN_EXCEPTIONS = ['forum.e-hentai.org']
 
 
