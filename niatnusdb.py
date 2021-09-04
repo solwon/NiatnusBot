@@ -41,8 +41,10 @@ def check_gacha_cd(userid):
         gacha.last_run = now
         gacha.count += 1
         gacha.save()
+        print('run check passed')
         return True
     else:
+        print('run check failed')
         return False
 
 
