@@ -44,7 +44,7 @@ def check_gacha_cd(userid):
         print('run check passed')
         return True
     else:
-        print('run check failed')
+        print(now, gacha.last_run)
         return False
 
 
