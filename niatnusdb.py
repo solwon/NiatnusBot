@@ -21,7 +21,7 @@ class User(BaseModel):
 class Gacha(BaseModel):
     user = ForeignKeyField(User, backref='gacha', unique=True)
     count = IntegerField(default=0)
-    last_run = DateTimeField(default=datetime.datetime.now() - datetime.timedelta(hours=-1))
+    last_run = DateTimeField(default=datetime.datetime.now())
     ticket = IntegerField(default=0)
 
 
@@ -29,6 +29,7 @@ def check_user(userid, username):
     user, created = User.get_or_create(userid=userid)
     if created:
         user_gacha = Gacha(user=user)
+        user_gacha.last_run = datetime.datetime.now() - datetime.timedelta(hours=-1)
         user_gacha.save()
         user.username = username
         user.save()
