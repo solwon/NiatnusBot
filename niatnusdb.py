@@ -15,6 +15,7 @@ class BaseModel(Model):
 
 class User(BaseModel):
     userid = CharField(max_length=255)
+    username = CharField(max_length=255, null=True)
 
 
 class Gacha(BaseModel):
@@ -24,17 +25,22 @@ class Gacha(BaseModel):
     ticket = IntegerField(default=0)
 
 
-def check_user(userid):
+def check_user(userid, username):
     user, created = User.get_or_create(userid=userid)
     if created:
         user_gacha = Gacha(user=user)
         user_gacha.save()
+        user.username = username
         user.save()
+    else:
+        if user.username != username:
+            user.username = username
+            user.save()
     return user
 
 
-def check_gacha_cd(userid):
-    user = check_user(userid)
+def check_gacha_cd(userid, username):
+    user = check_user(userid, username)
     gacha = user.gacha[0]
     now = datetime.datetime.now()
     if gacha.last_run + COOLDOWN <= now:

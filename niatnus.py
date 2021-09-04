@@ -266,7 +266,8 @@ async def 유네뾰이(ctx):
     # response = discord.Embed(color=helper.EMBED_COLOR)
     # response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
     userid = ctx.author.id
-    if niatnusdb.check_gacha_cd(userid):
+    username = ctx.author.name
+    if niatnusdb.check_gacha_cd(userid, username):
         num = random.random()
         if num < 0.2:
             response = discord.Embed(title=f'☆', color=helper.EMBED_COLOR)
