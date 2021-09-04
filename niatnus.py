@@ -269,21 +269,21 @@ async def 유네뾰이(ctx):
     if niatnusdb.check_gacha_cd(userid):
         num = random.random()
         if num < 0.2:
-            response = discord.Embed(title=f'☆', description='<@!237558566997721119>', color=helper.EMBED_COLOR)
+            response = discord.Embed(title=f'☆', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['1'])
         elif num < 0.4:
-            response = discord.Embed(title=f'☆☆', description='<@!237558566997721119>', color=helper.EMBED_COLOR)
+            response = discord.Embed(title=f'☆☆', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['2'])
         elif num < 0.6:
-            response = discord.Embed(title=f'☆☆☆', description='<@!237558566997721119>', color=helper.EMBED_COLOR)
+            response = discord.Embed(title=f'☆☆☆', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['3'])
         elif num < 0.8:
-            response = discord.Embed(title=f'☆☆☆☆', description='<@!237558566997721119>', color=helper.EMBED_COLOR)
+            response = discord.Embed(title=f'☆☆☆☆', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['4'])
         else:
             response = discord.Embed(title=f'☆☆☆☆☆', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['5'])
-        await ctx.send(embed=response)
+        await ctx.send('<@!237558566997721119>', embed=response)
     else:
         return
     # if random.random() <= 0.008:
