@@ -42,6 +42,7 @@ async def 도움말(ctx):
     response.add_field(name='!요일, !속성, !요일속성', value='오늘의 버프 속성을 출력하며 적 아군 상관 없이 해당 속성 저항이 10% 감소합니다', inline=False)
     response.add_field(name='!해스, !헤스, !hath (buy/삼/sell/팜 수량)', value='아무런 인수가 없을 경우 시세 정보를, 거래 종류와 수량을 함꼐 입력 시 비용 예상을 해 줍니다', inline=False)
     response.add_field(name='!지피, !gp (buy/삼/sell/팜 수량)', value='해스 대신 GP로 같은 기능을 합니다', inline=False)
+    response.add_field(name='!유네뾰이', value='헨번방의 아이돌 캐릭터 가챠를 돌립니다. 당신도 1% 행운의 소유자!', inline=False)
     await ctx.send(embed=response)
 
 
