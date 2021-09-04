@@ -45,3 +45,8 @@ def check_gacha_cd(userid):
     else:
         return False
 
+
+def initialize():
+    with db:
+        db.create_tables([User, Gacha])
+
