@@ -35,7 +35,7 @@ def check_user(userid):
 
 def check_gacha_cd(userid):
     user = check_user(userid)
-    gacha = user.gacha
+    gacha = user.gacha[0]
     now = datetime.datetime.now()
     if gacha.last_run + COOLDOWN >= now:
         gacha.last_run = now
