@@ -37,14 +37,12 @@ def check_gacha_cd(userid):
     user = check_user(userid)
     gacha = user.gacha[0]
     now = datetime.datetime.now()
-    if gacha.last_run + COOLDOWN >= now:
+    if gacha.last_run + COOLDOWN <= now:
         gacha.last_run = now
         gacha.count += 1
         gacha.save()
-        print('run check passed')
         return True
     else:
-        print(now, gacha.last_run)
         return False
 
 
