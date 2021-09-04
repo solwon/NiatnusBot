@@ -268,7 +268,7 @@ async def 유네뾰이(ctx):
     userid = ctx.author.id
     if niatnusdb.check_gacha_cd(userid):
         response = discord.Embed(color=helper.EMBED_COLOR)
-        num = random.random():
+        num = random.random()
         if num < 0.2:
             response.add_field(name=f'☆ <@!237558566997721119>')
             response.set_image(url=secrets['GACHA']['1'])
