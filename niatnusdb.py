@@ -21,7 +21,7 @@ class User(BaseModel):
 class Gacha(BaseModel):
     user = ForeignKeyField(User, backref='gacha', unique=True)
     count = IntegerField(default=0)
-    last_run = DateTimeField(default=datetime.datetime.now())
+    last_run = DateTimeField(default=datetime.datetime.now() - datetime.timedelta(hours=-1))
     ticket = IntegerField(default=0)
 
 

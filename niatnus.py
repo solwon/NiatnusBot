@@ -269,24 +269,26 @@ async def 유네뾰이(ctx):
     username = ctx.author.name
     if niatnusdb.check_gacha_cd(userid, username):
         num = random.random()
-        if num < 0.2:
-            response = discord.Embed(title=f'☆', color=helper.EMBED_COLOR)
+        message = ''
+        if num < 0.3:
+            response = discord.Embed(title=f'★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['1'])
-        elif num < 0.4:
-            response = discord.Embed(title=f'☆☆', color=helper.EMBED_COLOR)
-            response.set_image(url=secrets['GACHA']['2'])
-        elif num < 0.6:
-            response = discord.Embed(title=f'☆☆☆', color=helper.EMBED_COLOR)
-            response.set_image(url=secrets['GACHA']['3'])
         elif num < 0.8:
-            response = discord.Embed(title=f'☆☆☆☆', color=helper.EMBED_COLOR)
+            response = discord.Embed(title=f'★★', color=helper.EMBED_COLOR)
+            response.set_image(url=secrets['GACHA']['2'])
+        elif num < 0.95:
+            response = discord.Embed(title=f'★★★', color=helper.EMBED_COLOR)
+            response.set_image(url=secrets['GACHA']['3'])
+        elif num < 0.99:
+            response = discord.Embed(title=f'★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['4'])
         else:
-            response = discord.Embed(title=f'☆☆☆☆☆', color=helper.EMBED_COLOR)
+            message = '<@!836818154868047872>'
+            response = discord.Embed(title=f'★★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['5'])
-        await ctx.send('<@!237558566997721119>', embed=response)
+        await ctx.send(message, embed=response)
     else:
-        return
+        await ctx.send(f'{ctx.author.mention} 쿨타임입니다')
     # if random.random() <= 0.008:
     #     yune_id = '<@!836818154868047872>'
     #     await ctx.send(f'{yune_id}', file=discord.File('yunepyoi.png'))
