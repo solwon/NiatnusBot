@@ -29,7 +29,7 @@ def check_user(userid, username):
     user, created = User.get_or_create(userid=userid)
     if created:
         user_gacha = Gacha(user=user)
-        user_gacha.last_run = datetime.datetime.now() - datetime.timedelta(hours=-1)
+        user_gacha.last_run = datetime.datetime.now() - datetime.timedelta(hours=1)
         user_gacha.save()
         user.username = username
         user.save()
