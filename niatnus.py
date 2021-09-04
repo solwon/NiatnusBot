@@ -270,19 +270,19 @@ async def 유네뾰이(ctx):
         response = discord.Embed(color=helper.EMBED_COLOR)
         num = random.random()
         if num < 0.2:
-            response.add_field(name=f'☆ <@!237558566997721119>')
+            response.add_field(name=f'☆ <@!237558566997721119>', value='')
             response.set_image(url=secrets['GACHA']['1'])
         elif num < 0.4:
-            response.add_field(name=f'☆☆ <@!237558566997721119>')
+            response.add_field(name=f'☆☆ <@!237558566997721119>', value='')
             response.set_image(url=secrets['GACHA']['2'])
         elif num < 0.6:
-            response.add_field(name=f'☆☆☆ <@!237558566997721119>')
+            response.add_field(name=f'☆☆☆ <@!237558566997721119>', value='')
             response.set_image(url=secrets['GACHA']['3'])
         elif num < 0.8:
-            response.add_field(name=f'☆☆☆☆ <@!237558566997721119>')
+            response.add_field(name=f'☆☆☆☆ <@!237558566997721119>', value='')
             response.set_image(url=secrets['GACHA']['4'])
         else:
-            response.add_field(name=f'☆☆☆☆☆ <@!237558566997721119>')
+            response.add_field(name=f'☆☆☆☆☆ <@!237558566997721119>', value='')
             response.set_image(url=secrets['GACHA']['5'])
         await ctx.send(embed=response)
     else:
