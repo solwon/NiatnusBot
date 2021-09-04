@@ -281,7 +281,7 @@ async def 유네뾰이(ctx):
         elif num < 0.8:
             response.add_field(name=f'☆☆☆☆ <@!237558566997721119>')
             response.set_image(url=secrets['GACHA']['4'])
-        else
+        else:
             response.add_field(name=f'☆☆☆☆☆ <@!237558566997721119>')
             response.set_image(url=secrets['GACHA']['5'])
         await ctx.send(embed=response)
