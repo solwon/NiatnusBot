@@ -5,7 +5,7 @@ import datetime
 secrets = json.loads(open('secrets.json').read())
 db = MySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'])
 
-COOLDOWN = datetime.timedelta(seconds=30)
+COOLDOWN = datetime.timedelta(seconds=5)
 
 
 class BaseModel(Model):
