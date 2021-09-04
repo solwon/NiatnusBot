@@ -6,6 +6,7 @@ import datetime
 
 import crawler
 import helper
+import niatnusdb
 
 from discord.ext import commands, tasks
 
@@ -264,11 +265,33 @@ async def gp(ctx, *action):
 async def 유네뾰이(ctx):
     # response = discord.Embed(color=helper.EMBED_COLOR)
     # response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-    if random.random() <= 0.008:
-        yune_id = '<@!836818154868047872>'
-        await ctx.send(f'{yune_id}', file=discord.File('yunepyoi.png'))
+    userid = ctx.author.id
+    if niatnusdb.check_gacha_cd(userid):
+        response = discord.Embed(color=helper.EMBED_COLOR)
+        num = random.random():
+        if num < 0.2:
+            response.add_field(name=f'☆ <@!237558566997721119>')
+            response.set_image(url=secrets['GACHA']['1'])
+        elif num < 0.4:
+            response.add_field(name=f'☆☆ <@!237558566997721119>')
+            response.set_image(url=secrets['GACHA']['2'])
+        elif num < 0.6:
+            response.add_field(name=f'☆☆☆ <@!237558566997721119>')
+            response.set_image(url=secrets['GACHA']['3'])
+        elif num < 0.8:
+            response.add_field(name=f'☆☆☆☆ <@!237558566997721119>')
+            response.set_image(url=secrets['GACHA']['4'])
+        else
+            response.add_field(name=f'☆☆☆☆☆ <@!237558566997721119>')
+            response.set_image(url=secrets['GACHA']['5'])
+        await ctx.send(embed=response)
     else:
-        await ctx.send(file=discord.File('yunepyoi.png'))
+        return
+    # if random.random() <= 0.008:
+    #     yune_id = '<@!836818154868047872>'
+    #     await ctx.send(f'{yune_id}', file=discord.File('yunepyoi.png'))
+    # else:
+    #     await ctx.send(file=discord.File('yunepyoi.png'))
 
 
 @app.event
