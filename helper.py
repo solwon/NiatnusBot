@@ -1,6 +1,7 @@
 import requests
 import datetime
 import discord
+import re
 
 EMBED_COLOR = 0x62c1cc
 BAN_WORDS = ['h@h', 'h&h', '변태집', 'hentai@home', 'e-hentai', 'exhentai']
@@ -35,3 +36,15 @@ def menu_helper():
     response.add_field(name='국', value='마 딴거먹을 돈이면 국밥이 몇그릇이냐?', inline=False)
     response.add_field(name='간편식', value='패스트푸드나 분식 등 가볍고 빠르게 먹기 좋은 메뉴입니다', inline=False)
     return response
+
+
+def eulreul(kstr):
+    m = re.search('[가-힣]+', kstr)
+    if m:
+        k = m.group()[-1]
+        if (ord(k) - ord('가')) % 28 > 0:
+            return '을'
+        else:
+            return '를'
+    else:
+        return ''
