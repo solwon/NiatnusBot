@@ -95,5 +95,5 @@ def get_ducksong():
 
 def initialize():
     with db:
-        db.create_tables([User, Gacha])
+        db.create_tables([DuckSong])
 
