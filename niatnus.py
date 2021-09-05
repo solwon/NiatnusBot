@@ -290,7 +290,7 @@ async def 유네뾰이(ctx):
         await ctx.send(message, embed=response)
     else:
         await ctx.send(f'{ctx.author.mention} 쿨타임입니다', delete_after=3)
-        await ctx.delete()
+        await ctx.message.delete()
     # if random.random() <= 0.008:
     #     yune_id = '<@!836818154868047872>'
     #     await ctx.send(f'{yune_id}', file=discord.File('yunepyoi.png'))
