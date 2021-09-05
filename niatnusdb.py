@@ -31,6 +31,11 @@ class Gacha(BaseModel):
     ticket = IntegerField(default=0)
 
 
+class DuckSong(BaseModel):
+    user = ForeignKeyField(User, backref='songlist')
+    link = CharField()
+
+
 def check_user(userid, username):
     user, created = User.get_or_create(userid=userid)
     if created:
@@ -54,16 +59,16 @@ def check_gacha_cd(userid, username):
         gacha.last_run = now
         num = random.random()
         result = 0
-        if num < 0.3:
+        if num < 0.305:
             result = 1
             gacha.star_1 += 1
-        elif num < 0.8:
+        elif num < 0.805:
             result = 2
             gacha.star_2 += 1
-        elif num < 0.95:
+        elif num < 0.955:
             result = 3
             gacha.star_3 += 1
-        elif num < 0.99:
+        elif num < 0.995:
             result = 4
             gacha.star_4 += 1
         else:
@@ -74,6 +79,18 @@ def check_gacha_cd(userid, username):
         return result
     else:
         return 0
+
+
+def add_ducksong(url, userid, username):
+    user = check_user(userid, username)
+    song, created = DuckSong.get_or_create(user=user, link=url)
+    song.save()
+
+
+def get_ducksong():
+    songs = DuckSong.select()
+    song = songs[random.random() * len(songs)]
+    return song.url
 
 
 def initialize():
