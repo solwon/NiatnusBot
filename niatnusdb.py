@@ -90,7 +90,7 @@ def add_ducksong(url, userid, username):
 def get_ducksong():
     songs = DuckSong.select()
     song = songs[int(random.random() * len(songs))]
-    return song.url
+    return song.link
 
 
 def initialize():
