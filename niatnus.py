@@ -304,7 +304,7 @@ async def 유네뾰이(ctx):
 async def 노래추가(ctx, url):
     if not helper.youtube_validation(url):
         await ctx.send(f'{ctx.author.mention} 올바른 유튜브 주소형식이 아닙니다', delete_after=3)
-        await ctx.message.delete
+        await ctx.message.delete()
     else:
         userid = ctx.author.id
         username = ctx.author.display_name
