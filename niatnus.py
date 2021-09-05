@@ -265,7 +265,7 @@ async def gp(ctx, *action):
 
 
 @app.command()
-async def 유네뾰이(ctx, url):
+async def 유네뾰이(ctx):
     # response = discord.Embed(color=helper.EMBED_COLOR)
     # response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
     userid = ctx.author.id
