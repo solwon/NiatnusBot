@@ -268,19 +268,19 @@ async def 유네뾰이(ctx):
     # response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
     userid = ctx.author.id
     username = ctx.author.name
-    if niatnusdb.check_gacha_cd(userid, username):
-        num = random.random()
+    result = niatnusdb.check_gacha_cd(userid, username)
+    if result:
         message = ''
-        if num < 0.3:
+        if result == 1:
             response = discord.Embed(title=f'★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['1'])
-        elif num < 0.8:
+        elif result == 2:
             response = discord.Embed(title=f'★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['2'])
-        elif num < 0.95:
+        elif result == 3:
             response = discord.Embed(title=f'★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['3'])
-        elif num < 0.99:
+        elif result == 4:
             response = discord.Embed(title=f'★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['4'])
         else:
@@ -290,6 +290,7 @@ async def 유네뾰이(ctx):
         await ctx.send(message, embed=response)
     else:
         await ctx.send(f'{ctx.author.mention} 쿨타임입니다', delete_after=3)
+        await ctx.delete()
     # if random.random() <= 0.008:
     #     yune_id = '<@!836818154868047872>'
     #     await ctx.send(f'{yune_id}', file=discord.File('yunepyoi.png'))
