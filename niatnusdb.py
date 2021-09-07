@@ -72,8 +72,16 @@ def check_gacha_cd(userid, username):
             result = 4
             gacha.star_4 += 1
         else:
-            result = 5
-            gacha.star_5 += 1
+            if str(userid) == secrets["GACHA"]["218"]:
+                if random.random() < 0.2:
+                    result = 5
+                    gacha.star_5 += 1
+                else:
+                    result = 4
+                    gacha.star_4 += 1
+            else:
+                result = 5
+                gacha.star_5 += 1
         gacha.count += 1
         gacha.save()
         return result
