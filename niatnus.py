@@ -275,7 +275,7 @@ async def 유네뾰이(ctx):
         message = ''
         if result == -1:
             response = discord.Embed(title='밴 대상입니다', description='그러게 처신을 잘 했어야지', color=helper.EMBED_COLOR)
-        if result == 1:
+        elif result == 1:
             response = discord.Embed(title=f'★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['1'])
         elif result == 2:
@@ -295,11 +295,6 @@ async def 유네뾰이(ctx):
     else:
         await ctx.send(f'{ctx.author.mention} 쿨타임입니다', delete_after=1)
         await ctx.message.delete()
-    # if random.random() <= 0.008:
-    #     yune_id = '<@!836818154868047872>'
-    #     await ctx.send(f'{yune_id}', file=discord.File('yunepyoi.png'))
-    # else:
-    #     await ctx.send(file=discord.File('yunepyoi.png'))
 
 
 @app.command()
