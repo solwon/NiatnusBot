@@ -2,6 +2,7 @@ from peewee import *
 import json
 import datetime
 import random
+from playhouse.migrate import *
 
 secrets = json.loads(open('secrets.json').read())
 db = MySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'])
@@ -28,6 +29,8 @@ class Gacha(BaseModel):
     star_4 = IntegerField(default=0)
     star_5 = IntegerField(default=0)
     last_run = DateTimeField(default=datetime.datetime.now())
+    banned_until = DateTimeField(default=datetime.datetime.now() - datetime.timedelta(days=1))
+    rate_penalty = DoubleField(default=1)
     ticket = IntegerField(default=0)
 
 
@@ -55,6 +58,8 @@ def check_gacha_cd(userid, username):
     user = check_user(userid, username)
     gacha = user.gacha[0]
     now = datetime.datetime.now()
+    if gacha.banned_until > now:
+        return -1
     if gacha.last_run + COOLDOWN <= now:
         gacha.last_run = now
         num = random.random()
@@ -72,8 +77,9 @@ def check_gacha_cd(userid, username):
             result = 4
             gacha.star_4 += 1
         else:
-            if str(userid) == secrets["GACHA"]["218"]:
-                if random.random() < 0.2:
+            rate = 1 / gacha.rate_penalty
+            if rate < 1:
+                if random.random() < rate:
                     result = 5
                     gacha.star_5 += 1
                 else:
@@ -104,4 +110,15 @@ def get_ducksong():
 def initialize():
     with db:
         db.create_tables([DuckSong])
+
+
+def migration():
+    migrator = MySQLMigrator(db)
+    banned_until = DateTimeField(default=datetime.datetime.now() - datetime.timedelta(days=1))
+    rate_penalty = DoubleField(default=1)
+    migrate(
+        migrator.add_column('gacha', 'banned_until', banned_until),
+        migrator.add_column('gacha', 'rate_penalty', rate_penalty)
+    )
+
 

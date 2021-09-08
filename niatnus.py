@@ -40,8 +40,8 @@ async def 도움말(ctx):
     response.add_field(name='!lt, !로또무기, !무기', value='오늘자 무기 로또 정보와 어제자 우승자를 출력합니다', inline=False)
     response.add_field(name='!la, !로또방어구, !방어구', value='오늘자 방어구 로또 정보와 어제자 우승자를 출력합니다', inline=False)
     response.add_field(name='!요일, !속성, !요일속성', value='오늘의 버프 속성을 출력하며 적 아군 상관 없이 해당 속성 저항이 10% 감소합니다', inline=False)
-    response.add_field(name='!해스, !헤스, !hath <buy/삼/sell/팜> <수량>', value='아무런 인수가 없을 경우 시세 정보를, 거래 종류와 수량을 함꼐 입력 시 비용 예상을 해 줍니다', inline=False)
-    response.add_field(name='!지피, !gp <buy/삼/sell/팜> <수량>', value='해스 대신 GP로 같은 기능을 합니다', inline=False)
+    response.add_field(name='!해스, !헤스, !hath <buy/삼/sell/팜/팖> <수량>', value='아무런 인수가 없을 경우 시세 정보를, 거래 종류와 수량을 함꼐 입력 시 비용 예상을 해 줍니다', inline=False)
+    response.add_field(name='!지피, !gp <buy/삼/sell/팜/팖> <수량>', value='해스 대신 GP로 같은 기능을 합니다', inline=False)
     response.add_field(name='!노래추가 <유튜브 링크>', value='데이터베이스에 유튜브 주소를 등록합니다', inline=False)
     response.add_field(name='!노래추천', value='저장된 노래 중 무작위 한 곡을 뽑아옵니다', inline=False)
     response.add_field(name='!유네뾰이', value='헨번방의 아이돌 캐릭터 가챠를 돌립니다. 당신도 1% 행운의 소유자!', inline=False)
@@ -156,7 +156,7 @@ async def hath(ctx, *action):
         response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]:,}c\n거래 최저가: {context['24h_stats'][1]:,}c\n거래 평균가: {context['24h_stats'][2]:,}c", inline=True)
         await ctx.send(embed=response)
     elif len(action) == 2:
-        if action[0] not in ['buy', 'sell', '삼', '팜'] or not action[1].isdigit():
+        if action[0] not in ['buy', 'sell', '삼', '팜', '팖'] or not action[1].isdigit():
             return
         elif int(action[1]) == 0:
             return
@@ -180,7 +180,7 @@ async def hath(ctx, *action):
             else:
                 response.add_field(name=f'{amount:,}해스를 살 수 없습니다', value=f'{am_max:,}해스를 {pr_max:,}c에 살 수 있지만 그 이상은 매도 주문이 부족합니다.', inline=False)
             await ctx.send(embed=response)
-        elif action[0] in ['sell', '팜']:
+        elif action[0] in ['sell', '팜', '팖']:
             response = discord.Embed(color=helper.EMBED_COLOR)
             price_table = context['bid_list']
             amount = int(action[1])
@@ -213,7 +213,7 @@ async def gp(ctx, *action):
         response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]}c\n거래 최저가: {context['24h_stats'][1]}c\n거래 평균가: {context['24h_stats'][2]}c", inline=True)
         await ctx.send(embed=response)
     elif len(action) == 2:
-        if action[0] not in ['buy', 'sell', '삼', '팜'] or not action[1].isdigit():
+        if action[0] not in ['buy', 'sell', '삼', '팜', '팖'] or not action[1].isdigit():
             return
         elif int(action[1]) == 0:
             return
@@ -238,7 +238,7 @@ async def gp(ctx, *action):
                 response.add_field(name=f'{amount:,}kGP를 살 수 없습니다',
                                    value=f'{am_max:,}kGP를 {pr_max:,}c에 살 수 있지만 그 이상은 매도 주문이 부족합니다.', inline=False)
             await ctx.send(embed=response)
-        elif action[0] in ['sell', '팜']:
+        elif action[0] in ['sell', '팜', '팖']:
             response = discord.Embed(color=helper.EMBED_COLOR)
             price_table = context['bid_list']
             amount = int(action[1])
@@ -273,6 +273,8 @@ async def 유네뾰이(ctx):
     result = niatnusdb.check_gacha_cd(userid, username)
     if result:
         message = ''
+        if result == -1:
+            response = discord.Embed(title='밴 대상입니다', description='그러게 처신을 잘 했어야지', color=helper.EMBED_COLOR)
         if result == 1:
             response = discord.Embed(title=f'★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['1'])
@@ -291,7 +293,7 @@ async def 유네뾰이(ctx):
             response.set_image(url=secrets['GACHA']['5'])
         await ctx.send(message, embed=response)
     else:
-        await ctx.send(f'{ctx.author.mention} 쿨타임입니다', delete_after=3)
+        await ctx.send(f'{ctx.author.mention} 쿨타임입니다', delete_after=1)
         await ctx.message.delete()
     # if random.random() <= 0.008:
     #     yune_id = '<@!836818154868047872>'
