@@ -64,30 +64,22 @@ def check_gacha_cd(userid, username):
         gacha.last_run = now
         num = random.random()
         result = 0
-        if num < 0.305:
-            result = 1
-            gacha.star_1 += 1
-        elif num < 0.805:
-            result = 2
-            gacha.star_2 += 1
-        elif num < 0.955:
-            result = 3
-            gacha.star_3 += 1
-        elif num < 0.995:
+        atari = 0.005 * gacha.rate_penalty
+        if num < atari:
+            result = 5
+            gacha.star_5 += 1
+        elif num < atari + 0.04:
             result = 4
             gacha.star_4 += 1
+        elif num < atari + 0.19:
+            result = 3
+            gacha.star_3 += 1
+        elif num < atari + 0.69:
+            result = 2
+            gacha.star_2 += 1
         else:
-            rate = 1 / gacha.rate_penalty
-            if rate < 1:
-                if random.random() < rate:
-                    result = 5
-                    gacha.star_5 += 1
-                else:
-                    result = 4
-                    gacha.star_4 += 1
-            else:
-                result = 5
-                gacha.star_5 += 1
+            result = 1
+            gacha.star_1 += 1
         gacha.count += 1
         gacha.save()
         return result
