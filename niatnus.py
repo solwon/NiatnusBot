@@ -39,7 +39,7 @@ async def 도움말(ctx):
     response.add_field(name='!lotto, !로또', value='무기와 방어구 로또 품목, 판매 수량, 남은 시간을 출력합니다', inline=False)
     response.add_field(name='!lt, !로또무기, !무기', value='오늘자 무기 로또 정보와 어제자 우승자를 출력합니다', inline=False)
     response.add_field(name='!la, !로또방어구, !방어구', value='오늘자 방어구 로또 정보와 어제자 우승자를 출력합니다', inline=False)
-    response.add_field(name='!요일, !속성, !요일속성', value='오늘의 버프 속성을 출력하며 적 아군 상관 없이 해당 속성 저항이 10% 감소합니다', inline=False)
+    response.add_field(name='!요일, !속성, !요일속성', value='오늘의 버프 속성을 출력하며 적 아군 상관 없이 해당 속성 저항이 감소합니다', inline=False)
     response.add_field(name='!해스, !헤스, !hath <buy/삼/sell/팜/팖> <수량>', value='아무런 인수가 없을 경우 시세 정보를, 거래 종류와 수량을 함꼐 입력 시 비용 예상을 해 줍니다', inline=False)
     response.add_field(name='!지피, !gp <buy/삼/sell/팜/팖> <수량>', value='해스 대신 GP로 같은 기능을 합니다', inline=False)
     response.add_field(name='!노래추가 <유튜브 링크>', value='데이터베이스에 유튜브 주소를 등록합니다', inline=False)
