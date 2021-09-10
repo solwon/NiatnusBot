@@ -119,26 +119,27 @@ async def lotto_result():
 @app.command(aliases=['속성', '요일'])
 async def 요일속성(ctx):
     response = discord.Embed(color=helper.EMBED_COLOR)
-    response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 저항이 10% 감소합니다', inline=False)
+    attribute = weekday_attribute()
+    response.add_field(name='오늘의 요일 버프', value=f'{attribute[0]} 저항이 {attribute[1]}% 감소합니다', inline=False)
     await ctx.send(embed=response)
 
 
 def weekday_attribute():
     weekday = datetime.date.today().weekday()
     if weekday == 0:
-        return '암흑'
+        return '암흑', 10
     elif weekday == 1:
-        return '불'
+        return '불', 10
     elif weekday == 2:
-        return '얼음'
+        return '얼음', 10
     elif weekday == 3:
-        return '바람'
+        return '바람', 10
     elif weekday == 4:
-        return '모든'
+        return '속성, 보이드, 베기, 관통, 타격', 5
     elif weekday == 5:
-        return '전기'
+        return '전기', 10
     else:
-        return '신성'
+        return '신성', 10
 
 
 @lotto_result.before_loop
