@@ -23,7 +23,7 @@ def lotto():
     tickets_str = soup.select_one('#rightpane>div:nth-child(5)').string
     weapon_ticket_num = tickets_str.split(' ')[4]
     weapon_expiry = datetime.datetime(now.year, now.month, now.day) + datetime.timedelta(days=1)
-    weapon_remain_time = str(weapon_expiry - now).split('.')[0]
+    weapon_remain_time = re.sub('[-]*\d day, ', '', str(weapon_expiry - now).split('.')[0])
 
     # lotto armor
     content = helper.safe_content(secrets['URL']['la'], cookies=secrets['COOKIE'])
@@ -34,7 +34,7 @@ def lotto():
     tickets_str = soup.select_one('#rightpane>div:nth-child(5)').string
     armor_ticket_num = tickets_str.split(' ')[4]
     armor_expiry = datetime.datetime(now.year, now.month, now.day, 12)
-    armor_remain_time = str(armor_expiry - now).split('.')[0]
+    armor_remain_time = re.sub('[-]*\d day, ', '', str(armor_expiry - now).split('.')[0])
 
     # lotto yesterday
     weapon_key = (now - weapon_start).days
