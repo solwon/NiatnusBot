@@ -9,6 +9,7 @@ import helper
 import niatnusdb
 
 from discord.ext import commands, tasks
+from discord.ext.commands import CommandNotFound
 
 app = commands.Bot(command_prefix='!', help_command=None)
 secrets = json.loads(open('secrets.json').read())
@@ -333,6 +334,13 @@ async def on_message(message):
         await message.delete()
     else:
         await app.process_commands(message)
+
+
+@app.event
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        return
+    raise error
 
 
 lotto_result.start()
