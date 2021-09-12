@@ -107,8 +107,9 @@ async def lotto_result():
         response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장", inline=True)
         # 무기시간(오전9시)
         if now.hour == 0:
+            attribute = weekday_attribute()
             response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{int(context['w_y_ticket']):,}장\n{context['w_y_winner']}", inline=True)
-            response.add_field(name='오늘의 요일 버프', value=f'{weekday_attribute()} 저항이 10% 감소합니다', inline=False)
+            response.add_field(name='오늘의 요일 버프', value=f'{attribute[0]} 저항이 {attribute[1]}% 감소합니다', inline=False)
         else:
             response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{int(context['a_y_ticket']):,}장\n{context['a_y_winner']}", inline=True)
 

@@ -1,11 +1,12 @@
-from peewee import *
+# from peewee import *
 import json
 import datetime
 import random
 from playhouse.migrate import *
+from playhouse.pool import PooledMySQLDatabase
 
 secrets = json.loads(open('secrets.json').read())
-db = MySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'])
+db = PooledMySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'], stale_timeout=300, max_connections=16)
 
 COOLDOWN = datetime.timedelta(seconds=5)
 
