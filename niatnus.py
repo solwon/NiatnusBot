@@ -304,12 +304,8 @@ async def 가챠통계(ctx):
     userid = ctx.author.id
     username = ctx.author.display_name
     result = niatnusdb.gacha_stats(userid, username)
-    response = discord.Embed(
-        title=f'{username}님은 이만큼 유네뾰이를 사랑해요!',
-        description=f'+ ------ + ------ + ------ + ------ + ------ + ------ +\n| {"총":<6} | {"1성":<6} | {"2성":<6} | {"3성":<6} | {"4성":<6} | {"5성":<6} |\n| {result.star_1:<6} | {result.star_2:<6} | {result.star_3:<6} | {result.star_4:<6} | {result.star_5:<6} |\n+ ------ + ------ + ------ + ------ + ------ + ------ +',
-        color=helper.EMBED_COLOR
-    )
-    await ctx.reply(embed=response)
+    description = f'```{username}님은 이만큼 유네뾰이를 사랑해요!\n+ ------ + ------ + ------ + ------ + ------ + ------ +\n| {"총":<6} | {"1성":<6} | {"2성":<6} | {"3성":<6} | {"4성":<6} | {"5성":<6} |\n| {result.star_1:<6} | {result.star_2:<6} | {result.star_3:<6} | {result.star_4:<6} | {result.star_5:<6} |\n+ ------ + ------ + ------ + ------ + ------ + ------ +```',
+    await ctx.reply(description)
 
 
 @app.command()
