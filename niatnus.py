@@ -299,7 +299,7 @@ async def 유네뾰이(ctx):
         await ctx.message.delete()
 
 
-@app.command(alises=['가차통계'])
+@app.command(aliases=['가차통계'])
 async def 가챠통계(ctx):
     userid = ctx.author.id
     username = ctx.author.display_name
