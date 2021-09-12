@@ -300,6 +300,19 @@ async def 유네뾰이(ctx):
 
 
 @app.command()
+async def 가챠통계(ctx):
+    userid = ctx.author.id
+    username = ctx.author.display_name
+    result = niatnusdb.gacha_stats(userid, username)
+    response = discord.Embed(
+        title=f'{username}님의 유네뾰이 통계',
+        description=f'+ ------ + ------ + ------ + ------ + ------ + ------ +\n| 총     | 1성    | 2성    | 3성    | 4성    | 5성    |\n| {result.star_1:6} | {result.star_2:6} | {result.star_3:6} | {result.star_4:6} | {result.star_5:6} |\n+ ------ + ------ + ------ + ------ + ------ + ------ +',
+        color=helper.EMBED_COLOR
+    )
+    await ctx.reply(embed=response)
+
+
+@app.command()
 async def 노래추가(ctx, url):
     if not helper.youtube_validation(url):
         await ctx.send(f'{ctx.author.mention} 올바른 유튜브 주소형식이 아닙니다', delete_after=3)
