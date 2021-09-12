@@ -299,12 +299,12 @@ async def 유네뾰이(ctx):
         await ctx.message.delete()
 
 
-@app.command()
+@app.command(alises=['가차통계'])
 async def 가챠통계(ctx):
     userid = ctx.author.id
     username = ctx.author.display_name
     result = niatnusdb.gacha_stats(userid, username)
-    description = f'```\n{username}님은 {result.count}만큼 유네뾰이를 사랑해요!\n+ ----- + ----- + ----- + ----- + ----- +\n| {"1s":<5} | {"2s":<5} | {"3s":<5} | {"4s":<5} | {"5s":<5} |\n| {result.star_1:<5} | {result.star_2:<5} | {result.star_3:<5} | {result.star_4:<5} | {result.star_5:<5} |\n+ ----- + ----- + ----- + ----- + ----- +\n```'
+    description = f'```\n{username}님은 {result.count}만큼 유네뾰이를 사랑해요!\n★☆☆☆☆ | {result.star_1}\n★★☆☆☆ | {result.star_2}\n★★★☆☆ | {result.star_3}\n★★★★☆ | {result.star_4}\n★★★★★ | {result.star_5}\n```'
     await ctx.reply(description)
 
 
