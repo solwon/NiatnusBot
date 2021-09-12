@@ -90,7 +90,7 @@ def check_gacha_cd(userid, username):
 
 def gacha_stats(userid, username):
     user = check_user(userid, username)
-    return user.gacha
+    return user.gacha[0]
 
 
 def add_ducksong(url, userid, username):
