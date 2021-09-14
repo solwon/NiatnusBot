@@ -3,12 +3,21 @@ import json
 import datetime
 import random
 from playhouse.migrate import *
-from playhouse.pool import PooledMySQLDatabase
+# from playhouse.pool import PooledMySQLDatabase
 
 secrets = json.loads(open('secrets.json').read())
-db = PooledMySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'], stale_timeout=300, max_connections=16)
+db = MySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'])
 
 COOLDOWN = datetime.timedelta(seconds=5)
+
+
+def ensure_connection(f):
+    def wrapper(*args, **kwargs):
+        db.connect()
+        result = f(*args, **kwargs)
+        db.close()
+        return result
+    return wrapper
 
 
 class BaseModel(Model):
@@ -55,6 +64,7 @@ def check_user(userid, username):
     return user
 
 
+@ensure_connection
 def check_gacha_cd(userid, username):
     user = check_user(userid, username)
     gacha = user.gacha[0]
@@ -88,17 +98,20 @@ def check_gacha_cd(userid, username):
         return 0
 
 
+@ensure_connection
 def gacha_stats(userid, username):
     user = check_user(userid, username)
     return user.gacha[0]
 
 
+@ensure_connection
 def add_ducksong(url, userid, username):
     user = check_user(userid, username)
     song, created = DuckSong.get_or_create(user=user, link=url)
     song.save()
 
 
+@ensure_connection
 def get_ducksong():
     songs = DuckSong.select()
     song = songs[int(random.random() * len(songs))]
