@@ -267,7 +267,7 @@ async def gp(ctx, *action):
             await ctx.send(embed=response)
 
 
-@app.command()
+@app.command(aliases=['\유네뾰이', '유\네뾰이', '유네\뾰이', '유네뾰\이'])
 async def 유네뾰이(ctx):
     # response = discord.Embed(color=helper.EMBED_COLOR)
     # response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
