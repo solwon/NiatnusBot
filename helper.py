@@ -61,3 +61,8 @@ def youtube_validation(url):
         return youtube_regex_match
 
     return youtube_regex_match
+
+
+def is_mention(text):
+    mention_str = r'<@!+\d*>'
+    return re.match(mention_str, text)

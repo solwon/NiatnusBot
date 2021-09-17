@@ -301,12 +301,26 @@ async def 유네뾰이(ctx):
 
 
 @app.command(aliases=['가차통계'])
-async def 가챠통계(ctx):
-    userid = ctx.author.id
-    username = ctx.author.display_name
-    result = niatnusdb.gacha_stats(userid, username)
-    description = f'```\n{username}님은 {result.count}만큼 유네뾰이를 사랑해요!\n★☆☆☆☆ | {result.star_1}\n★★☆☆☆ | {result.star_2}\n★★★☆☆ | {result.star_3}\n★★★★☆ | {result.star_4}\n★★★★★ | {result.star_5}\n```'
-    await ctx.reply(description)
+async def 가챠통계(ctx, *args):
+    is_error = False
+    if len(args) == 0:
+        userid = ctx.author.id
+        username = ctx.author.display_name
+    elif len(args) == 1:
+        if helper.is_mention(args[0]):
+            userid = ctx.message.mentions[0].id
+            username = ctx.message.mentions[0].display_name
+        else:
+            is_error = True
+    else:
+        is_error = True
+    if is_error:
+        description = f'```\n가챠통계 (원하는 사람 멘션) 의 형태로 써 주세요\n```'
+        await ctx.reply(description)
+    else:
+        result = niatnusdb.gacha_stats(userid, username)
+        description = f'```\n{username}님은 {result.count}만큼 유네뾰이를 사랑해요!\n★☆☆☆☆ | {result.star_1}\n★★☆☆☆ | {result.star_2}\n★★★☆☆ | {result.star_3}\n★★★★☆ | {result.star_4}\n★★★★★ | {result.star_5}\n```'
+        await ctx.reply(description)
 
 
 @app.command()
