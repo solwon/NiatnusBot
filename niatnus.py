@@ -46,6 +46,7 @@ async def 도움말(ctx):
     response.add_field(name='!노래추가 <유튜브 링크>', value='데이터베이스에 유튜브 주소를 등록합니다', inline=False)
     response.add_field(name='!노래추천', value='저장된 노래 중 무작위 한 곡을 뽑아옵니다', inline=False)
     response.add_field(name='!유네뾰이', value='헨번방의 아이돌 캐릭터 가챠를 돌립니다. 당신도 1% 행운의 소유자!', inline=False)
+    response.add_field(name='!가챠통계 (회원 멘션)', value='멘션 없이 호출할 경우 자신의 유네뾰이 통계를, 멘션이 있으면 멘션한 사람의 통계를 출력합니다', inline=False)
     await ctx.send(embed=response)
 
 
