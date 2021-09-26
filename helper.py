@@ -5,7 +5,7 @@ import re
 
 EMBED_COLOR = 0x62c1cc
 BAN_WORDS = ['h@h', 'h&h', '변태집', 'hentai@home', 'e-hentai', 'exhentai']
-BAN_EXCEPTIONS = ['forum.e-hentai.org']
+BAN_EXCEPTIONS = ['forums.e-hentai.org']
 
 
 def log(cat, message):
