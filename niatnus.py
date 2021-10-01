@@ -115,7 +115,7 @@ async def lotto_result():
         else:
             response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{int(context['a_y_ticket']):,}장\n{context['a_y_winner']}", inline=True)
 
-        await app.get_channel(secrets['DISCORD']['channel']).send(embed=response)  # 헨번방 general
+        await app.get_guild(secrets['DISCORD']['server']).system_channel.send(embed=response) # 헨번방 general
         # await app.get_channel(secrets['DISCORD']['test_channel']).send(embed=response)  # 테스트용 채널
 
 
