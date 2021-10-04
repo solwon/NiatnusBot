@@ -326,14 +326,18 @@ async def 가챠통계(ctx, *args):
 
 @app.command()
 async def 노래추가(ctx, url):
-    if not helper.youtube_validation(url):
+    validation = helper.youtube_validation(url)
+    if not validation[0]:
         await ctx.send(f'{ctx.author.mention} 올바른 유튜브 주소형식이 아닙니다', delete_after=3)
         await ctx.message.delete()
     else:
         userid = ctx.author.id
         username = ctx.author.display_name
         result = niatnusdb.add_ducksong(url, userid, username)
-        await ctx.send(f'{ctx.author.mention} 해당 노래가 추가되었습니다.')
+        if result:
+            await ctx.send(f'{ctx.author.mention} 해당 노래가 추가되었습니다.')
+        else:
+            await ctx.send(f'{ctx.author.mention} 이미 추가된 노래입니다.')
 
 
 @app.command()

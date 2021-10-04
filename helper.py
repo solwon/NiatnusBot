@@ -53,14 +53,21 @@ def eulreul(kstr):
 def youtube_validation(url):
     youtube_regex = (
         r'(https?://)?(www\.)?'
-        '(youtube|youtu|youtube-nocookie)\.(com|be)/'
-        '(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+        r'(youtube|youtu|youtube-nocookie)\.(com|be)/'
+        r'(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
 
     youtube_regex_match = re.match(youtube_regex, url)
     if youtube_regex_match:
-        return youtube_regex_match
+        v_id = get_youtube_id(url)
+        return True, v_id
 
-    return youtube_regex_match
+    return False, ''
+
+
+def get_youtube_id(url):
+    pattern = r'((?<=(v|V)/)|(?<=be/)|(?<=(\?|\&)v=)|(?<=embed/))([\w-]+)'
+    v_id = re.search(pattern, url).group()
+    return v_id
 
 
 def is_mention(text):

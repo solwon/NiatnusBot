@@ -4,6 +4,7 @@ import datetime
 import random
 from playhouse.migrate import *
 # from playhouse.pool import PooledMySQLDatabase
+import helper
 
 secrets = json.loads(open('secrets.json').read())
 db = MySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'])
@@ -47,6 +48,7 @@ class Gacha(BaseModel):
 class DuckSong(BaseModel):
     user = ForeignKeyField(User, backref='songlist')
     link = CharField()
+    vid = CharField(default='')
 
 
 def check_user(userid, username):
@@ -106,9 +108,15 @@ def gacha_stats(userid, username):
 
 @ensure_connection
 def add_ducksong(url, userid, username):
+    flag = True
     user = check_user(userid, username)
-    song, created = DuckSong.get_or_create(user=user, link=url)
+    vid = helper.get_youtube_id(url)
+    song, created = DuckSong.get_or_create(user=user, vid=vid)
+    if created:
+        song.link = url
+        flag = False
     song.save()
+    return flag
 
 
 @ensure_connection
@@ -125,11 +133,11 @@ def initialize():
 
 def migration():
     migrator = MySQLMigrator(db)
-    banned_until = DateTimeField(default=datetime.datetime.now() - datetime.timedelta(days=1))
-    rate_penalty = DoubleField(default=1)
+    vid = CharField(default='')
     migrate(
-        migrator.add_column('gacha', 'banned_until', banned_until),
-        migrator.add_column('gacha', 'rate_penalty', rate_penalty)
+        migrator.add_column('ducksong', 'vid', vid)
     )
-
-
+    songs = DuckSong.select()
+    for song in songs:
+        song.vid = helper.get_youtube_id(song.link)
+        song.save()
