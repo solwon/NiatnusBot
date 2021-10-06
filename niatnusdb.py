@@ -116,8 +116,8 @@ def add_ducksong(url, userid, username):
     flag = False
     user = check_user(userid, username)
     vid = helper.get_youtube_id(url)
-    songs = DuckSong.select().where(vid=vid)
-    if len(songs) == 0:
+    song = DuckSong.get_or_none(vid=vid)
+    if not song:
         song = DuckSong.create(user=user, link=url, vid=vid)
         flag = True
         song.save()
