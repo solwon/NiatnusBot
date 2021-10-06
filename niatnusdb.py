@@ -8,6 +8,7 @@ import helper
 
 secrets = json.loads(open('secrets.json').read())
 db = MySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'])
+db.close()
 
 COOLDOWN = datetime.timedelta(seconds=5)
 
@@ -49,6 +50,10 @@ class DuckSong(BaseModel):
     user = ForeignKeyField(User, backref='songlist')
     link = CharField()
     vid = CharField(default='')
+
+
+class Food(BaseModel):
+    user = ForeignKeyField(User, backref='foodlist')
 
 
 def check_user(userid, username):
