@@ -133,7 +133,7 @@ def get_ducksong():
 
 def initialize():
     with db:
-        db.create_tables([DuckSong])
+        db.create_tables([User, Gacha, DuckSong])
 
 
 def migration():
