@@ -291,10 +291,14 @@ async def 유네뾰이(ctx):
         elif result == 4:
             response = discord.Embed(title=f'★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['4'])
-        else:
+        elif result == 5:
             message = secrets['GACHA']['yunetsun']
             response = discord.Embed(title=f'★★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['5'])
+        else:
+            message = secrets['GACHA']['yunetsun']
+            response = discord.Embed(title=f'★★★★★★', color=helper.EMBED_COLOR)
+            response.set_image(url=secrets['GACHA']['6'])
         await ctx.send(message, embed=response)
     else:
         await ctx.send(f'{ctx.author.mention} 쿨타임입니다', delete_after=1)
