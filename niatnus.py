@@ -320,7 +320,7 @@ async def 가챠통계(ctx, *args):
         await ctx.reply(description)
     else:
         result = niatnusdb.gacha_stats(userid, username)
-        description = f'```\n{username}님은 {result.count}만큼 유네뾰이를 사랑해요!\n★☆☆☆☆ | {result.star_1}\n★★☆☆☆ | {result.star_2}\n★★★☆☆ | {result.star_3}\n★★★★☆ | {result.star_4}\n★★★★★ | {result.star_5}\n```'
+        description = f'```\n{username}님은 {result.count}만큼 유네뾰이를 사랑해요!\n★☆☆☆☆☆ | {result.star_1}\n★★☆☆☆☆ | {result.star_2}\n★★★☆☆☆ | {result.star_3}\n★★★★☆☆ | {result.star_4}\n★★★★★☆ | {result.star_5}\n★★★★★★ | {result.star_6}\n```'
         await ctx.reply(description)
 
 

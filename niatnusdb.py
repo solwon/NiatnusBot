@@ -40,6 +40,7 @@ class Gacha(BaseModel):
     star_3 = IntegerField(default=0)
     star_4 = IntegerField(default=0)
     star_5 = IntegerField(default=0)
+    star_6 = IntegerField(default=0)
     last_run = DateTimeField(default=datetime.datetime.now())
     banned_until = DateTimeField(default=datetime.datetime.now() - datetime.timedelta(days=1))
     rate_penalty = DoubleField(default=1)
@@ -84,8 +85,12 @@ def check_gacha_cd(userid, username):
         result = 0
         atari = 0.005 * gacha.rate_penalty
         if num < atari:
-            result = 5
-            gacha.star_5 += 1
+            if random.random() < 0.2:
+                result = 6
+                gacha.star_6 += 1
+            else:
+                result = 5
+                gacha.star_5 += 1
         elif num < atari + 0.04:
             result = 4
             gacha.star_4 += 1
@@ -138,11 +143,7 @@ def initialize():
 
 def migration():
     migrator = MySQLMigrator(db)
-    vid = CharField(default='')
+    star_6 = IntegerField(default=0)
     migrate(
-        migrator.add_column('ducksong', 'vid', vid)
+        migrator.add_column('gacha', 'star_6', star_6)
     )
-    songs = DuckSong.select()
-    for song in songs:
-        song.vid = helper.get_youtube_id(song.link)
-        song.save()
