@@ -10,7 +10,7 @@ secrets = json.loads(open('secrets.json').read())
 db = MySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'])
 db.close()
 
-COOLDOWN = datetime.timedelta(seconds=5)
+COOLDOWN = datetime.timedelta(seconds=2)
 
 
 def ensure_connection(f):
