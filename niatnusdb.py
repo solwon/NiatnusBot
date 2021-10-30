@@ -8,7 +8,6 @@ import helper
 
 secrets = json.loads(open('secrets.json').read())
 db = MySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'])
-db.close()
 
 COOLDOWN = datetime.timedelta(seconds=2)
 
