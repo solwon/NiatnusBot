@@ -299,8 +299,8 @@ async def 유네뾰이(ctx):
             message = secrets['GACHA']['yunetsun']
             response = discord.Embed(title=f'★★★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['6'])
-            response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-        await ctx.reply(message, embed=response)
+        response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+        await ctx.send(message, embed=response)
     else:
         # await ctx.send(f'{ctx.author.mention} 쿨타임입니다', delete_after=1)
         await ctx.message.delete()
