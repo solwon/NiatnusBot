@@ -299,9 +299,10 @@ async def 유네뾰이(ctx):
             message = secrets['GACHA']['yunetsun']
             response = discord.Embed(title=f'★★★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['6'])
+            response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
         await ctx.reply(message, embed=response)
     else:
-        await ctx.send(f'{ctx.author.mention} 쿨타임입니다', delete_after=1)
+        # await ctx.send(f'{ctx.author.mention} 쿨타임입니다', delete_after=1)
         await ctx.message.delete()
 
 
@@ -325,7 +326,7 @@ async def 가챠통계(ctx, *args):
     else:
         result = niatnusdb.gacha_stats(userid, username)
         description = f'```\n{username}님은 {result.count}만큼 유네뾰이를 사랑해요!\n★☆☆☆☆☆ | {result.star_1}\n★★☆☆☆☆ | {result.star_2}\n★★★☆☆☆ | {result.star_3}\n★★★★☆☆ | {result.star_4}\n★★★★★☆ | {result.star_5}\n★★★★★★ | {result.star_6}\n```'
-        await ctx.reply(description)
+        await ctx.send(description)
 
 
 @app.command()

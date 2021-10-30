@@ -9,7 +9,7 @@ import helper
 secrets = json.loads(open('secrets.json').read())
 db = MySQLDatabase(secrets['DB']['name'], user=secrets['DB']['user'], password=secrets['DB']['pw'])
 
-COOLDOWN = datetime.timedelta(seconds=2)
+COOLDOWN = datetime.timedelta(seconds=1)
 
 
 def ensure_connection(f):
@@ -84,7 +84,7 @@ def check_gacha_cd(userid, username):
         result = 0
         atari = 0.005 * gacha.rate_penalty
         if num < atari:
-            if random.random() < 0.2:
+            if num < atari * 0.2:
                 result = 6
                 gacha.star_6 += 1
             else:
