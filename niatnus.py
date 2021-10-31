@@ -367,5 +367,10 @@ async def on_command_error(ctx, error):
     raise error
 
 
+@app.event
+async def on_ready():
+    await app.get_guild(secrets['DISCORD']['server']).system_channel.send('시스템 채널입니다')
+
+
 lotto_result.start()
 app.run(secrets['BOT']['token'])
