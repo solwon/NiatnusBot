@@ -325,6 +325,7 @@ async def 가챠통계(ctx, *args):
     else:
         is_error = True
     if is_error:
+        print(len(args), ctx.message.content)
         description = f'```\n가챠통계 (원하는 사람 멘션) 의 형태로 써 주세요\n```'
         await ctx.reply(description)
     else:
