@@ -71,5 +71,5 @@ def get_youtube_id(url):
 
 
 def is_mention(text):
-    mention_str = r'<@!+\d*>'
+    mention_str = r'<@!?\d*>'
     return re.match(mention_str, text)
