@@ -117,7 +117,7 @@ async def lotto_result():
 
         sys_chan = app.get_guild(secrets['DISCORD']['server']).system_channel
         if not sys_chan:
-            await app.get_guild(secrets['DISCORD']['server']).get_channel(secrets['DISCORD']['bot_channel']).send(f"{secrets['GACHA']['goom']} 시스템 채널을 확인해주세요")
+            await app.get_guild(secrets['DISCORD']['server']).get_channel(secrets['DISCORD']['bot_command']).send(f"{secrets['GACHA']['goom']} 시스템 채널을 확인해주세요")
         else:
             await app.get_guild(secrets['DISCORD']['server']).system_channel.send(embed=response) # 헨번방 general
         # await app.get_channel(secrets['DISCORD']['test_channel']).send(embed=response)  # 테스트용 채널
