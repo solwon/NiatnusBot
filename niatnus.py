@@ -356,9 +356,9 @@ async def 노래추천(ctx):
     await ctx.send(f'{result}')
 
 
-@app.command()
-async def 애초에(ctx):
-    await ctx.send(secrets['IMAGE']['achoe'])
+# @app.command()
+# async def 애초에(ctx):
+#     await ctx.send(secrets['IMAGE']['achoe'])
 
 
 @app.event
