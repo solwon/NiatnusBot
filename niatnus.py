@@ -356,6 +356,11 @@ async def 노래추천(ctx):
     await ctx.send(f'{result}')
 
 
+@app.command()
+async def 애초에(ctx):
+    await ctx.send(secrets['IMAGE']['achoe'])
+
+
 @app.event
 async def on_message(message):
     if any(bad_word in message.content.lower() for bad_word in helper.BAN_WORDS) and any(exception not in message.content.lower() for exception in helper.BAN_EXCEPTIONS):
