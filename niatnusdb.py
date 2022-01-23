@@ -75,6 +75,11 @@ def check_user(userid, username):
         if user.username != username:
             user.username = username
             user.save()
+        if user.gacha2.count() == 0:
+            user_gacha2 = Gacha2(user=user)
+            user_gacha2.last_run = datetime.datetime.now() - datetime.timedelta(hours=1)
+            user_gacha2.save()
+            user.save()
     return user
 
 
