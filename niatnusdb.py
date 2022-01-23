@@ -152,7 +152,7 @@ def initialize():
 
 def migration():
     migrator = MySQLMigrator(db)
-    user = ForeignKeyField(User, backref='gacha2', unique=True)
+    user = ForeignKeyField(User, backref='gacha2', unique=True, null=True)
     migrate(
         migrator.add_column('gacha2', 'user', user)
     )
