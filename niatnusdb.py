@@ -47,7 +47,7 @@ class Gacha(BaseModel):
 
 
 class Gacha2(Gacha):
-    pass
+    user = ForeignKeyField(User, backref='gacha2', unique=True)
 
 
 class DuckSong(BaseModel):
@@ -152,7 +152,7 @@ def initialize():
 
 def migration():
     migrator = MySQLMigrator(db)
-    star_6 = IntegerField(default=0)
+    user = ForeignKeyField(User, backref='gacha2', unique=True)
     migrate(
-        migrator.add_column('gacha', 'star_6', star_6)
+        migrator.add_column('gacha2', 'user', user)
     )
