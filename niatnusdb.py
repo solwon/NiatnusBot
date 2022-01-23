@@ -66,6 +66,9 @@ def check_user(userid, username):
         user_gacha = Gacha(user=user)
         user_gacha.last_run = datetime.datetime.now() - datetime.timedelta(hours=1)
         user_gacha.save()
+        user_gacha2 = Gacha2(user=user)
+        user_gacha2.last_run = datetime.datetime.now() - datetime.timedelta(hours=1)
+        user_gacha2.save()
         user.username = username
         user.save()
     else:
@@ -78,7 +81,7 @@ def check_user(userid, username):
 @ensure_connection
 def check_gacha_cd(userid, username):
     user = check_user(userid, username)
-    gacha = user.gacha[0]
+    gacha = user.gacha2[0]
     now = datetime.datetime.now()
     if gacha.banned_until > now:
         return -1
@@ -86,7 +89,7 @@ def check_gacha_cd(userid, username):
         gacha.last_run = now
         num = random.random()
         result = 0
-        atari = 0.005 * gacha.rate_penalty
+        atari = 0.01 * gacha.rate_penalty
         if num < atari:
             if num < atari * 0.2:
                 result = 6
@@ -94,13 +97,13 @@ def check_gacha_cd(userid, username):
             else:
                 result = 5
                 gacha.star_5 += 1
-        elif num < atari + 0.04:
+        elif num < atari + 0.06:
             result = 4
             gacha.star_4 += 1
-        elif num < atari + 0.19:
+        elif num < atari + 0.21:
             result = 3
             gacha.star_3 += 1
-        elif num < atari + 0.69:
+        elif num < atari + 0.71:
             result = 2
             gacha.star_2 += 1
         else:
@@ -114,9 +117,12 @@ def check_gacha_cd(userid, username):
 
 
 @ensure_connection
-def gacha_stats(userid, username):
+def gacha_stats(userid, username, season=1):
     user = check_user(userid, username)
-    return user.gacha[0]
+    if season == 1:
+        return user.gacha[0]
+    elif season == 2:
+        return user.gacha2[0]
 
 
 @ensure_connection
