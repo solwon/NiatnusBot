@@ -46,6 +46,10 @@ class Gacha(BaseModel):
     ticket = IntegerField(default=0)
 
 
+class Gacha2(Gacha):
+    pass
+
+
 class DuckSong(BaseModel):
     user = ForeignKeyField(User, backref='songlist')
     link = CharField()
@@ -137,7 +141,7 @@ def get_ducksong():
 
 def initialize():
     with db:
-        db.create_tables([User, Gacha, DuckSong])
+        db.create_tables([Gacha2])
 
 
 def migration():
