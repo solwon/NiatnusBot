@@ -1,6 +1,6 @@
 import asyncio
 import random
-import nextcord as discord
+import nextcord
 import json
 import datetime
 
@@ -10,6 +10,7 @@ import niatnusdb
 
 from nextcord.ext import commands, tasks
 from nextcord.ext.commands import CommandNotFound
+from nextcord import Interaction
 
 app = commands.Bot(command_prefix='!', help_command=None)
 secrets = json.loads(open('secrets.json').read())
@@ -29,12 +30,12 @@ async def on_ready():
     print('다음으로 로그인합니다: ')
     print(app.user.name)
     print('connection was successful')
-    await app.change_presence(status=discord.Status.online, activity=discord.Game('!도움말'))
+    await app.change_presence(status=nextcord.Status.online, activity=nextcord.Game('!도움말'))
 
 
 @app.command()
 async def 도움말(ctx):
-    response = discord.Embed(title='니앗누스봇 매뉴얼', description='기능 관련 문의는 쿠루링빵에게', color=helper.EMBED_COLOR)
+    response = nextcord.Embed(title='니앗누스봇 매뉴얼', description='기능 관련 문의는 쿠루링빵에게', color=helper.EMBED_COLOR)
     response.add_field(name='UTC 0시(한국시간 9시)', value='새로운 무기와 방어구, 어제자 무기 로또 정보를 출력합니다', inline=False)
     response.add_field(name='UTC 12시(한국시간 21시)', value='무기와 새로운 방어구, 어제자 방어구 로또 정보를 출력합니다', inline=False)
     response.add_field(name='!lotto, !로또', value='무기와 방어구 로또 품목, 판매 수량, 남은 시간을 출력합니다', inline=False)
@@ -60,11 +61,11 @@ async def 뭐먹지(ctx, *cat):
             for k, v in foods.items():
                 menus += v
             result = menus[random.randrange(0, len(menus))]
-            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}{helper.eulreul(result)} 먹어보는 게 어떨까요?', color=helper.EMBED_COLOR)
+            response = nextcord.Embed(title="메뉴 추천", description=f'오늘은 {result}{helper.eulreul(result)} 먹어보는 게 어떨까요?', color=helper.EMBED_COLOR)
             await ctx.send(embed=response)
         elif cat[0] in ['특식', '찌개', '밥', '면', '국', '간편식']:
             result = foods[cat[0]][random.randrange(0, len(foods[cat[0]]))]
-            response = discord.Embed(title="메뉴 추천", description=f'오늘은 {result}{helper.eulreul(result)} 먹어보는 게 어떨까요?', color=helper.EMBED_COLOR)
+            response = nextcord.Embed(title="메뉴 추천", description=f'오늘은 {result}{helper.eulreul(result)} 먹어보는 게 어떨까요?', color=helper.EMBED_COLOR)
             await ctx.send(embed=response)
         else:
             await ctx.send(embed=helper.menu_helper())
@@ -73,7 +74,7 @@ async def 뭐먹지(ctx, *cat):
 @app.command(aliases=['lotto'])
 async def 로또(ctx):
     context = crawler.lotto()
-    response = discord.Embed(color=helper.EMBED_COLOR)
+    response = nextcord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
     response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장\n남은 시간: {context['a_t_remain']}", inline=True)
     await ctx.send(embed=response)
@@ -82,7 +83,7 @@ async def 로또(ctx):
 @app.command(aliases=['로또무기', '무기'])
 async def lt(ctx):
     context = crawler.lotto()
-    response = discord.Embed(color=helper.EMBED_COLOR)
+    response = nextcord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
     response.add_field(name='어제자 무기', value=f"{context['w_y_name']}\n{int(context['w_y_ticket']):,}장\n{context['w_y_winner']}")
     await ctx.send(embed=response)
@@ -91,7 +92,7 @@ async def lt(ctx):
 @app.command(aliases=['로또방어구', '방어구'])
 async def la(ctx):
     context = crawler.lotto()
-    response = discord.Embed(color=helper.EMBED_COLOR)
+    response = nextcord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장\n남은 시간: {context['a_t_remain']}", inline=True)
     response.add_field(name='어제자 방어구', value=f"{context['a_y_name']}\n{int(context['a_y_ticket']):,}장\n{context['a_y_winner']}")
     await ctx.send(embed=response)
@@ -103,7 +104,7 @@ async def lotto_result():
     now = datetime.datetime.now()
     # if True:
     if now.hour in [0, 12] and now.minute == 0 and 30 <= now.second < 60:
-        response = discord.Embed(color=helper.EMBED_COLOR)
+        response = nextcord.Embed(color=helper.EMBED_COLOR)
         context = crawler.lotto()
         response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장", inline=True)
         response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장", inline=True)
@@ -125,7 +126,7 @@ async def lotto_result():
 
 @app.command(aliases=['속성', '요일'])
 async def 요일속성(ctx):
-    response = discord.Embed(color=helper.EMBED_COLOR)
+    response = nextcord.Embed(color=helper.EMBED_COLOR)
     attribute = weekday_attribute()
     response.add_field(name='오늘의 요일 버프', value=f'{attribute[0]} 저항이 {attribute[1]}% 감소합니다', inline=False)
     await ctx.send(embed=response)
@@ -158,7 +159,7 @@ async def before_loop():
 async def hath(ctx, *action):
     if len(action) == 0:
         context = crawler.orderbook('hath')
-        response = discord.Embed(color=helper.EMBED_COLOR)
+        response = nextcord.Embed(color=helper.EMBED_COLOR)
         response.add_field(name='현재 시세', value=f"매수 최고가: {context['ask_list'][0][0]:,}c\n매도 최저가: {context['bid_list'][0][0]:,}c\n최근 거래가: {context['recent']:,}c", inline=True)
         response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]:,}c\n거래 최저가: {context['8h_stats'][1]:,}c\n거래 평균가: {context['8h_stats'][2]:,}c", inline=True)
         response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]:,}c\n거래 최저가: {context['24h_stats'][1]:,}c\n거래 평균가: {context['24h_stats'][2]:,}c", inline=True)
@@ -170,7 +171,7 @@ async def hath(ctx, *action):
             return
         context = crawler.orderbook('hath')
         if action[0] in ['buy', '삼']:
-            response = discord.Embed(color=helper.EMBED_COLOR)
+            response = nextcord.Embed(color=helper.EMBED_COLOR)
             price_table = context['ask_list']
             amount = int(action[1])
             am_max, pr_max = sum([pair[1] for pair in price_table]), sum([pair[0] * pair[1] for pair in price_table])
@@ -189,7 +190,7 @@ async def hath(ctx, *action):
                 response.add_field(name=f'{amount:,}해스를 살 수 없습니다', value=f'{am_max:,}해스를 {pr_max:,}c에 살 수 있지만 그 이상은 매도 주문이 부족합니다.', inline=False)
             await ctx.send(embed=response)
         elif action[0] in ['sell', '팜', '팖']:
-            response = discord.Embed(color=helper.EMBED_COLOR)
+            response = nextcord.Embed(color=helper.EMBED_COLOR)
             price_table = context['bid_list']
             amount = int(action[1])
             am_max, pr_max = sum([pair[1] for pair in price_table]), sum([pair[0] * pair[1] for pair in price_table])
@@ -215,7 +216,7 @@ async def hath(ctx, *action):
 async def gp(ctx, *action):
     if len(action) == 0:
         context = crawler.orderbook('gp')
-        response = discord.Embed(color=helper.EMBED_COLOR)
+        response = nextcord.Embed(color=helper.EMBED_COLOR)
         response.add_field(name='현재 시세', value=f"매수 최고가: {context['ask_list'][0][0]}c\n매도 최저가: {context['bid_list'][0][0]}c\n최근 거래가: {context['recent']}c", inline=True)
         response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]}c\n거래 최저가: {context['8h_stats'][1]}c\n거래 평균가: {context['8h_stats'][2]}c", inline=True)
         response.add_field(name='최근 24시간', value=f"거래 최고가: {context['24h_stats'][0]}c\n거래 최저가: {context['24h_stats'][1]}c\n거래 평균가: {context['24h_stats'][2]}c", inline=True)
@@ -227,7 +228,7 @@ async def gp(ctx, *action):
             return
         context = crawler.orderbook('gp')
         if action[0] in ['buy', '삼']:
-            response = discord.Embed(color=helper.EMBED_COLOR)
+            response = nextcord.Embed(color=helper.EMBED_COLOR)
             price_table = context['ask_list']
             amount = int(action[1])
             am_max, pr_max = sum([pair[1] for pair in price_table]), sum([pair[0] * pair[1] for pair in price_table])
@@ -247,7 +248,7 @@ async def gp(ctx, *action):
                                    value=f'{am_max:,}kGP를 {pr_max:,}c에 살 수 있지만 그 이상은 매도 주문이 부족합니다.', inline=False)
             await ctx.send(embed=response)
         elif action[0] in ['sell', '팜', '팖']:
-            response = discord.Embed(color=helper.EMBED_COLOR)
+            response = nextcord.Embed(color=helper.EMBED_COLOR)
             price_table = context['bid_list']
             amount = int(action[1])
             am_max, pr_max = sum([pair[1] for pair in price_table]), sum([pair[0] * pair[1] for pair in price_table])
@@ -274,7 +275,7 @@ async def gp(ctx, *action):
 
 @app.command(aliases=['\유네뾰이', '유\네뾰이', '유네\뾰이', '유네뾰\이', '유네뵤이'])
 async def 유네뾰이(ctx):
-    # response = discord.Embed(color=helper.EMBED_COLOR)
+    # response = nextcord.Embed(color=helper.EMBED_COLOR)
     # response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
     userid = ctx.author.id
     username = ctx.author.display_name
@@ -282,26 +283,26 @@ async def 유네뾰이(ctx):
     if result:
         message = ''
         if result == -1:
-            response = discord.Embed(title='밴 대상입니다', description='그러게 처신을 잘 했어야지', color=helper.EMBED_COLOR)
+            response = nextcord.Embed(title='밴 대상입니다', description='그러게 처신을 잘 했어야지', color=helper.EMBED_COLOR)
         elif result == 1:
-            response = discord.Embed(title=f'★', color=helper.EMBED_COLOR)
+            response = nextcord.Embed(title=f'★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['1'])
         elif result == 2:
-            response = discord.Embed(title=f'★★', color=helper.EMBED_COLOR)
+            response = nextcord.Embed(title=f'★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['2'])
         elif result == 3:
-            response = discord.Embed(title=f'★★★', color=helper.EMBED_COLOR)
+            response = nextcord.Embed(title=f'★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['3'])
         elif result == 4:
-            response = discord.Embed(title=f'★★★★', color=helper.EMBED_COLOR)
+            response = nextcord.Embed(title=f'★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['4'])
         elif result == 5:
             message = secrets['GACHA']['yunetsun']
-            response = discord.Embed(title=f'★★★★★', color=helper.EMBED_COLOR)
+            response = nextcord.Embed(title=f'★★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['5'])
         else:
             message = secrets['GACHA']['yunetsun']
-            response = discord.Embed(title=f'★★★★★★', color=helper.EMBED_COLOR)
+            response = nextcord.Embed(title=f'★★★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['6'])
         response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
         await ctx.send(message, embed=response)
@@ -381,8 +382,8 @@ async def 노래추천(ctx):
 
 
 @app.slash_command(name='testnistnus')
-async def nistnustest(interaction: discord.Interaction, member: discord.Member):
-    await interaction.response.send_message(member.mention)
+async def nistnustest(interaction: Interaction):
+    await interaction.response.send_message('hello, world!')
 
 
 @app.event
