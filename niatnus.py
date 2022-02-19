@@ -380,9 +380,9 @@ async def 노래추천(ctx):
     await ctx.send(f'{result}')
 
 
-# @app.command()
-# async def 애초에(ctx):
-#     await ctx.send(secrets['IMAGE']['achoe'])
+@app.slash_command()
+async def 테스트(interaction: discord.Interaction, member: discord.Member):
+    await interaction.response.send_message(member.mention)
 
 
 @app.event
