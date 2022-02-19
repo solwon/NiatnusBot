@@ -1,6 +1,6 @@
 import asyncio
 import random
-import discord
+import nextcord as discord
 import json
 import datetime
 

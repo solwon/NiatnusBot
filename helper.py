@@ -1,6 +1,6 @@
 import requests
 import datetime
-import discord
+import nextcord as discord
 import re
 
 EMBED_COLOR = 0x62c1cc
