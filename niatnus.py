@@ -8,8 +8,8 @@ import crawler
 import helper
 import niatnusdb
 
-from discord.ext import commands, tasks
-from discord.ext.commands import CommandNotFound
+from nextcord.ext import commands, tasks
+from nextcord.ext.commands import CommandNotFound
 
 app = commands.Bot(command_prefix='!', help_command=None)
 secrets = json.loads(open('secrets.json').read())
