@@ -380,8 +380,8 @@ async def 노래추천(ctx):
     await ctx.send(f'{result}')
 
 
-@app.slash_command()
-async def 테스트(interaction: discord.Interaction, member: discord.Member):
+@app.slash_command(name='testnistnus')
+async def nistnustest(interaction: discord.Interaction, member: discord.Member):
     await interaction.response.send_message(member.mention)
 
 
