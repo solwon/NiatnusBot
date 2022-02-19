@@ -381,7 +381,7 @@ async def 노래추천(ctx):
     await ctx.send(f'{result}')
 
 
-@app.slash_command(name='testnistnus', guild_ids=[782997633328611438])
+@app.slash_command(name='testnistnus', guild_ids=[782997633328611438,416174233409028096])
 async def nistnustest(interaction: Interaction):
     await interaction.response.send_message('hello, world!')
 
