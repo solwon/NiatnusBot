@@ -12,7 +12,7 @@ from nextcord.ext import commands, tasks
 from nextcord.ext.commands import CommandNotFound
 from nextcord import Interaction
 
-app = nextcord.Client(command_prefix='!', help_command=None)
+app = commands.Bot(command_prefix='!', help_command=None)
 secrets = json.loads(open('secrets.json').read())
 # SQLite 연동해서 추가삭제 가능하도록 할 것
 foods = {
