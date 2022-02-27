@@ -55,7 +55,7 @@ food_categories = ['특식', '찌개', '밥', '면', '국', '간편식']
 
 
 @app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='니앗누스에게 식사 메뉴를 추천받습니다')
-async def 뭐먹지(interaction: Interaction, cat: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', choices=food_categories, required=True)):
+async def a(interaction: Interaction, cat: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', choices=food_categories, required=True)):
     if not cat:
         response = helper.menu_helper()
     else:
