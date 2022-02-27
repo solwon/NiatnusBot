@@ -54,8 +54,8 @@ async def on_ready():
 food_categories = ['특식', '찌개', '밥', '면', '국', '간편식']
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='니앗누스에게 식사 메뉴를 추천받습니다')
-async def a(interaction: Interaction, cat: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', choices=food_categories, required=True)):
+@app.slash_command(name='뭐먹지', guild_ids=[secrets['DISCORD']['server']], description='니앗누스에게 식사 메뉴를 추천받습니다')
+async def what_to_eat(interaction: Interaction, cat: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', choices=food_categories, required=True)):
     if not cat:
         response = helper.menu_helper()
     else:
@@ -71,8 +71,8 @@ async def a(interaction: Interaction, cat: str = SlashOption(name='음식 종류
     await interaction.response.send_message(embed=response)
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='오늘의 로또 요약을 봅니다')
-async def 로또(interaction: Interaction):
+@app.slash_command(name='로또', guild_ids=[secrets['DISCORD']['server']], description='오늘의 로또 요약을 봅니다')
+async def lotto(interaction: Interaction):
     context = crawler.lotto()
     response = nextcord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
@@ -80,8 +80,8 @@ async def 로또(interaction: Interaction):
     await interaction.response.send_message(embed=response)
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='오늘의 무기 로또 정보를 봅니다')
-async def 무기(interaction: Interaction):
+@app.slash_command(name='무기', guild_ids=[secrets['DISCORD']['server']], description='오늘의 무기 로또 정보를 봅니다')
+async def lw(interaction: Interaction):
     context = crawler.lotto()
     response = nextcord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장\n남은 시간: {context['w_t_remain']}", inline=True)
@@ -89,8 +89,8 @@ async def 무기(interaction: Interaction):
     await interaction.response.send_message(embed=response)
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='오늘의 방어구 로또 정보를 봅니다')
-async def 방어구(interaction: Interaction):
+@app.slash_command(name='방어구', guild_ids=[secrets['DISCORD']['server']], description='오늘의 방어구 로또 정보를 봅니다')
+async def la(interaction: Interaction):
     context = crawler.lotto()
     response = nextcord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장\n남은 시간: {context['a_t_remain']}", inline=True)
@@ -124,8 +124,8 @@ async def lotto_result():
         # await app.get_channel(secrets['DISCORD']['test_channel']).send(embed=response)  # 테스트용 채널
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='오늘의 속성 정보를 봅니다')
-async def 속성(interaction: Interaction):
+@app.slash_command(name='속성', guild_ids=[secrets['DISCORD']['server']], description='오늘의 속성 정보를 봅니다')
+async def element(interaction: Interaction):
     response = nextcord.Embed(color=helper.EMBED_COLOR)
     attribute = weekday_attribute()
     response.add_field(name='오늘의 요일 버프', value=f'{attribute[0]} 저항이 {attribute[1]}% 감소합니다', inline=False)
@@ -155,51 +155,51 @@ async def before_loop():
     await app.wait_until_ready()
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='해스 시세 정보를 봅니다')
-async def 해스(interaction: Interaction):
+@app.slash_command(name='해스', guild_ids=[secrets['DISCORD']['server']], description='해스 시세 정보를 봅니다')
+async def hath(interaction: Interaction):
     pass
 
 
-@해스.subcommand(description='현재 시세 정보')
-async def 시세(interaction: Interaction):
+@hath.subcommand(name='시세', description='현재 시세 정보')
+async def price(interaction: Interaction):
     response = orderbook('hath')
     await interaction.response.send_message(embed=response)
 
 
-@해스.subcommand(description='해스 판매 계산기')
-async def 팜(interaction: Interaction, amount: int = SlashOption(name='수량', description='판매할 수량 입력(최대 50000해스)', required=True, min_value=0, max_value=50000)):
+@hath.subcommand(name='팜', description='해스 판매 계산기')
+async def sell(interaction: Interaction, amount: int = SlashOption(name='수량', description='판매할 수량 입력(최대 50000해스)', required=True, min_value=0, max_value=50000)):
     response = market_calc('hath', 'buy', amount)
     if response:
         await interaction.response.send_message(embed=response)
 
 
-@해스.subcommand(description='해스 구매 계산기')
-async def 삼(interaction: Interaction, amount: int = SlashOption(name='수량', description='구매할 수량 입력(최대 50000해스)', required=True, min_value=0, max_value=50000)):
+@hath.subcommand(name='삼', description='해스 구매 계산기')
+async def buy(interaction: Interaction, amount: int = SlashOption(name='수량', description='구매할 수량 입력(최대 50000해스)', required=True, min_value=0, max_value=50000)):
     response = market_calc('hath', 'sell', amount)
     if response:
         await interaction.response.send_message(embed=response)
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='GP 시세 정보를 봅니다')
-async def 지피(interaction: Interaction):
+@app.slash_command(name='지피', guild_ids=[secrets['DISCORD']['server']], description='GP 시세 정보를 봅니다')
+async def gp(interaction: Interaction):
     pass
 
 
-@지피.subcommand(description='현재 시세 정보')
-async def 시세(interaction: Interaction):
+@gp.subcommand(name='시세', description='현재 시세 정보')
+async def price(interaction: Interaction):
     response = orderbook('gp')
     await interaction.response.send_message(embed=response)
 
 
-@지피.subcommand(description='GP 판매 계산기')
-async def 팜(interaction: Interaction, amount: int = SlashOption(name='수량', description='판매할 수량 입력(최대 50000kGP)', required=True, min_value=0, max_value=50000)):
+@gp.subcommand(name='팜', description='GP 판매 계산기')
+async def sell(interaction: Interaction, amount: int = SlashOption(name='수량', description='판매할 수량 입력(최대 50000kGP)', required=True, min_value=0, max_value=50000)):
     response = market_calc('gp', 'buy', amount)
     if response:
         await interaction.response.send_message(embed=response)
 
 
-@지피.subcommand(description='GP 구매 계산기')
-async def 삼(interaction: Interaction, amount: int = SlashOption(name='수량', description='구매할 수량 입력(최대 50000kGP)', required=True, min_value=0, max_value=50000)):
+@gp.subcommand(name='삼', description='GP 구매 계산기')
+async def buy(interaction: Interaction, amount: int = SlashOption(name='수량', description='구매할 수량 입력(최대 50000kGP)', required=True, min_value=0, max_value=50000)):
     response = market_calc('gp', 'sell', amount)
     if response:
         await interaction.response.send_message(embed=response)
@@ -263,8 +263,8 @@ def market_calc(currency, action, amount):
         return response
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='헨번방의 아이돌 가챠!')
-async def 유네뾰이(interaction: Interaction):
+@app.slash_command(name='유네뾰이', guild_ids=[secrets['DISCORD']['server']], description='헨번방의 아이돌 가챠!')
+async def yunepyoi(interaction: Interaction):
     # response = nextcord.Embed(color=helper.EMBED_COLOR)
     # response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
     userid = interaction.user.id
@@ -301,8 +301,8 @@ async def 유네뾰이(interaction: Interaction):
         await interaction.message.delete()
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='과거 유네뾰이 통계를 봅니다')
-async def 구통계(interaction: Interaction, user: nextcord.Member = SlashOption(name='유저', description='통계를 볼 유저명(비울시 자기 자신)', required=False)):
+@app.slash_command(name='구통계', guild_ids=[secrets['DISCORD']['server']], description='과거 유네뾰이 통계를 봅니다')
+async def old_stats(interaction: Interaction, user: nextcord.Member = SlashOption(name='유저', description='통계를 볼 유저명(비울시 자기 자신)', required=False)):
     if not user:
         userid = interaction.user.id
         username = interaction.user.display_name
@@ -314,8 +314,8 @@ async def 구통계(interaction: Interaction, user: nextcord.Member = SlashOptio
     await interaction.response.send_message(description)
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='유네뾰이 통계를 봅니다')
-async def 가챠통계(interaction: Interaction, user: nextcord.Member = SlashOption(name='유저', description='통계를 볼 유저명(비울시 자기 자신)', required=False)):
+@app.slash_command(name='가챠통계', guild_ids=[secrets['DISCORD']['server']], description='유네뾰이 통계를 봅니다')
+async def gacha_stats(interaction: Interaction, user: nextcord.Member = SlashOption(name='유저', description='통계를 볼 유저명(비울시 자기 자신)', required=False)):
     if not user:
         userid = interaction.user.id
         username = interaction.user.display_name
@@ -349,8 +349,8 @@ async def 가챠통계(interaction: Interaction, user: nextcord.Member = SlashOp
 #     await interaction.response.send_message(f'{result}')
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='지정한 유저의 프로필 사진을 봅니다')
-async def 아바타(interaction: Interaction, user: nextcord.Member = SlashOption(name='유저명', description='입력하지 않으면 자기 자신의 프로필 사진이 출력됩니다', required=False)):
+@app.slash_command(name='아바타', guild_ids=[secrets['DISCORD']['server']], description='지정한 유저의 프로필 사진을 봅니다')
+async def avatar(interaction: Interaction, user: nextcord.Member = SlashOption(name='유저명', description='입력하지 않으면 자기 자신의 프로필 사진이 출력됩니다', required=False)):
     if not user:
         prof_user = interaction.user
     else:
