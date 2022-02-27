@@ -53,14 +53,7 @@ async def on_ready():
 
 
 @app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='니앗누스에게 식사 메뉴를 추천받습니다')
-async def 뭐먹지(interaction: Interaction, arg: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', choices={
-    '특식': '특식',
-    '찌개': '찌개',
-    '밥': '밥',
-    '면': '면',
-    '국': '국',
-    '간편식': '간편식'
-})):
+async def 뭐먹지(interaction: Interaction, arg: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', choices={'특식': '특식', '찌개': '찌개', '밥': '밥', '면': '면', '국': '국', '간편식': '간편식'})):
     if not arg:
         await interaction.response.send_message(embed=helper.menu_helper())
     else:
