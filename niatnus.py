@@ -54,8 +54,7 @@ async def on_ready():
 
 @app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='니앗누스에게 식사 메뉴를 추천받습니다')
 async def 뭐먹지(interaction: Interaction,
-              cat: str = SlashOption(name='음식 종류', description='선택할 음식의 종류',
-                                     choices=['전부', '특식', '찌개', '밥', '면', '국', '간편식'], required=True)):
+              cat: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', required=True)):
     if not cat:
         await interaction.response.send_message(embed=helper.menu_helper())
     else:
@@ -355,10 +354,13 @@ async def 가챠통계(interaction: Interaction, user: nextcord.Member = SlashOp
 @app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='지정한 유저의 프로필 사진을 봅니다')
 async def 아바타(interaction: Interaction, user: nextcord.Member = SlashOption(name='유저명', description='입력하지 않으면 자기 자신의 프로필 사진이 출력됩니다', required=False)):
     if not user:
-        prof_picture = interaction.user.display_avatar
+        prof_user = interaction.user
     else:
-        prof_picture = user.display_avatar
-    await interaction.response.send_message(prof_picture)
+        prof_user = user
+    response = nextcord.Embed(color=prof_user.color)
+    response.set_author(name=prof_user.display_name, icon_url=prof_user.avatar)
+    response.set_image(url=prof_user.display_avatar.url)
+    await interaction.response.send_message(embed=response)
 
 
 @app.event
