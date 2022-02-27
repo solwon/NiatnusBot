@@ -53,7 +53,14 @@ async def on_ready():
 
 
 @app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='니앗누스에게 식사 메뉴를 추천받습니다')
-async def 뭐먹지(interaction: Interaction, arg: str = SlashOption(description='분류')):
+async def 뭐먹지(interaction: Interaction, arg: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', choices={
+    '특식': '특식',
+    '찌개': '찌개',
+    '밥': '밥',
+    '면': '면',
+    '국': '국',
+    '간편식': '간편식'
+})):
     if not arg:
         await interaction.response.send_message(embed=helper.menu_helper())
     else:
@@ -168,14 +175,14 @@ async def 시세(interaction: Interaction):
 
 
 @해스.subcommand(description='해스 판매 계산기')
-async def 팜(interaction: Interaction, amount: int = SlashOption(name='수량', required=True, min_value=0, max_value=50000)):
+async def 팜(interaction: Interaction, amount: int = SlashOption(name='수량', description='판매할 수량 입력(최대 50000해스)', required=True, min_value=0, max_value=50000)):
     response = market_calc('hath', 'buy', amount)
     if response:
         await interaction.response.send_message(embed=response)
 
 
 @해스.subcommand(description='해스 구매 계산기')
-async def 삼(interaction: Interaction, amount: int = SlashOption(name='수량', required=True, min_value=0, max_value=50000)):
+async def 삼(interaction: Interaction, amount: int = SlashOption(name='수량', description='구매할 수량 입력(최대 50000해스)', required=True, min_value=0, max_value=50000)):
     response = market_calc('hath', 'sell', amount)
     if response:
         await interaction.response.send_message(embed=response)
@@ -193,14 +200,14 @@ async def 시세(interaction: Interaction):
 
 
 @지피.subcommand(description='GP 판매 계산기')
-async def 팜(interaction: Interaction, amount: int = SlashOption(name='수량', required=True, min_value=0, max_value=50000)):
+async def 팜(interaction: Interaction, amount: int = SlashOption(name='수량', description='판매할 수량 입력(최대 50000kGP)', required=True, min_value=0, max_value=50000)):
     response = market_calc('gp', 'buy', amount)
     if response:
         await interaction.response.send_message(embed=response)
 
 
 @지피.subcommand(description='GP 구매 계산기')
-async def 삼(interaction: Interaction, amount: int = SlashOption(name='수량', required=True, min_value=0, max_value=50000)):
+async def 삼(interaction: Interaction, amount: int = SlashOption(name='수량', description='구매할 수량 입력(최대 50000kGP)', required=True, min_value=0, max_value=50000)):
     response = market_calc('gp', 'sell', amount)
     if response:
         await interaction.response.send_message(embed=response)
@@ -350,9 +357,13 @@ async def 가챠통계(interaction: Interaction, user: nextcord.Member = SlashOp
 #     await interaction.response.send_message(f'{result}')
 
 
-@app.slash_command(name='hello', guild_ids=[782997633328611438])
-async def hello(interaction: Interaction):
-    await interaction.response.send_message('hello, world!')
+@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='지정한 유저의 프로필 사진을 봅니다')
+async def avatar(interaction: Interaction, user: nextcord.Member = SlashOption(name='유저명', description='입력하지 않으면 자기 자신의 프로필 사진이 출력됩니다', required=False)):
+    if not user:
+        prof_picture = interaction.user.display_avatar
+    else:
+        prof_picture = user.display_avatar
+    await interaction.response.send_message(prof_picture)
 
 
 @app.event
