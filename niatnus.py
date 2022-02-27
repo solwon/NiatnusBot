@@ -387,13 +387,13 @@ async def nistnustest(interaction: Interaction):
     await interaction.response.send_message('hello, world!')
 
 
-@app.event
-async def on_message(message):
-    if any(bad_word in message.content.lower() for bad_word in helper.BAN_WORDS) and any(exception not in message.content.lower() for exception in helper.BAN_EXCEPTIONS):
-        await message.channel.send(f'{message.author.mention} - 금지어 사용에 주의해주세요', delete_after=3)
-        await message.delete()
-    else:
-        await app.process_application_commands(message)
+# @app.event
+# async def on_message(message):
+#     if any(bad_word in message.content.lower() for bad_word in helper.BAN_WORDS) and any(exception not in message.content.lower() for exception in helper.BAN_EXCEPTIONS):
+#         await message.channel.send(f'{message.author.mention} - 금지어 사용에 주의해주세요', delete_after=3)
+#         await message.delete()
+#     else:
+#         await app.process_application_commands(message)
 
 
 @app.event
