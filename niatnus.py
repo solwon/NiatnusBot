@@ -171,14 +171,14 @@ async def 시세(interaction: Interaction):
 async def 팜(interaction: Interaction, amount: int = SlashOption(name='수량', required=True, min_value=0, max_value=50000)):
     response = market_calc('hath', 'buy', amount)
     if response:
-        await interaction.response.send_message(response)
+        await interaction.response.send_message(embed=response)
 
 
 @해스.subcommand(description='해스 구매 계산기')
 async def 삼(interaction: Interaction, amount: int = SlashOption(name='수량', required=True, min_value=0, max_value=50000)):
     response = market_calc('hath', 'sell', amount)
     if response:
-        await interaction.response.send_message(response)
+        await interaction.response.send_message(embed=response)
 
 
 @app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='GP 시세 정보를 봅니다')
@@ -196,14 +196,14 @@ async def 시세(interaction: Interaction):
 async def 팜(interaction: Interaction, amount: int = SlashOption(name='수량', required=True, min_value=0, max_value=50000)):
     response = market_calc('gp', 'buy', amount)
     if response:
-        await interaction.response.send_message(response)
+        await interaction.response.send_message(embed=response)
 
 
 @지피.subcommand(description='GP 구매 계산기')
 async def 삼(interaction: Interaction, amount: int = SlashOption(name='수량', required=True, min_value=0, max_value=50000)):
     response = market_calc('gp', 'sell', amount)
     if response:
-        await interaction.response.send_message(response)
+        await interaction.response.send_message(embed=response)
 
 
 def orderbook(currency):
