@@ -12,7 +12,8 @@ from nextcord.ext import commands, tasks
 from nextcord.ext.commands import CommandNotFound
 from nextcord import Interaction
 
-app = commands.Bot(command_prefix='!', help_command=None)
+app = nextcord.Client()
+# app = commands.Bot(command_prefix='!', help_command=None)
 secrets = json.loads(open('secrets.json').read())
 # SQLite 연동해서 추가삭제 가능하도록 할 것
 foods = {
@@ -33,8 +34,8 @@ async def on_ready():
     await app.change_presence(status=nextcord.Status.online, activity=nextcord.Game('!도움말'))
 
 
-@app.command()
-async def 도움말(ctx):
+@app.user_command()
+async def 도움말(interaction: Interaction):
     response = nextcord.Embed(title='니앗누스봇 매뉴얼', description='기능 관련 문의는 쿠루링빵에게', color=helper.EMBED_COLOR)
     response.add_field(name='UTC 0시(한국시간 9시)', value='새로운 무기와 방어구, 어제자 무기 로또 정보를 출력합니다', inline=False)
     response.add_field(name='UTC 12시(한국시간 21시)', value='무기와 새로운 방어구, 어제자 방어구 로또 정보를 출력합니다', inline=False)
@@ -48,7 +49,7 @@ async def 도움말(ctx):
     response.add_field(name='!노래추천', value='저장된 노래 중 무작위 한 곡을 뽑아옵니다', inline=False)
     response.add_field(name='!유네뾰이', value='헨번방의 아이돌 캐릭터 가챠를 돌립니다. 당신도 1% 행운의 소유자!', inline=False)
     response.add_field(name='!가챠통계 (회원 멘션)', value='멘션 없이 호출할 경우 자신의 유네뾰이 통계를, 멘션이 있으면 멘션한 사람의 통계를 출력합니다', inline=False)
-    await ctx.send(embed=response)
+    await interaction.response.send_message(embed=response)
 
 
 @app.command()
