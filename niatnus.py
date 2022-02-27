@@ -51,7 +51,7 @@ async def on_ready():
 #     response.add_field(name='/가챠통계 (회원 멘션)', value='멘션 없이 호출할 경우 자신의 유네뾰이 통계를, 멘션이 있으면 멘션한 사람의 통계를 출력합니다', inline=False)
 #     await interaction.response.send_message(embed=response)
 
-food_categories = ['특식', '찌개', '밥', '면', '국', '간편식']
+food_categories = ['전부', '특식', '찌개', '밥', '면', '국', '간편식']
 
 
 @app.slash_command(name='뭐먹지', guild_ids=[secrets['DISCORD']['server']], description='니앗누스에게 식사 메뉴를 추천받습니다')
