@@ -393,7 +393,7 @@ async def on_message(message):
         await message.channel.send(f'{message.author.mention} - 금지어 사용에 주의해주세요', delete_after=3)
         await message.delete()
     else:
-        await app.process_commands(message)
+        await app.process_application_commands(message)
 
 
 @app.event
