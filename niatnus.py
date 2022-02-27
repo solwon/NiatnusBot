@@ -382,7 +382,7 @@ async def on_ready():
 #     await ctx.send(f'{result}')
 
 
-@app.slash_command(guild_ids=[782997633328611438, 416174233409028096])
+@app.slash_command(name='hello', guild_ids=[782997633328611438])
 async def hello(interaction: Interaction):
     await interaction.response.send_message('hello, world!')
 
