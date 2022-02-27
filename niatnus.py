@@ -9,10 +9,11 @@ import helper
 import niatnusdb
 
 from nextcord.ext import commands, tasks
-from nextcord.ext.commands import Bot, CommandNotFound
+from nextcord.ext.commands import CommandNotFound
 from nextcord import Interaction
 
-app = Bot(command_prefix='!', help_command=None)
+intents = nextcord.Intents.default()
+app = commands.Bot(command_prefix='!', intents=intents)
 secrets = json.loads(open('secrets.json').read())
 # SQLite 연동해서 추가삭제 가능하도록 할 것
 foods = {
@@ -381,7 +382,7 @@ async def 노래추천(ctx):
     await ctx.send(f'{result}')
 
 
-@app.slash_command(guild_ids=[782997633328611438,416174233409028096])
+@app.slash_command(guild_ids=[782997633328611438, 416174233409028096])
 async def hello(interaction: Interaction):
     await interaction.response.send_message('hello, world!')
 
