@@ -52,25 +52,25 @@ async def on_ready():
 #     await interaction.response.send_message(embed=response)
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='니앗누스에게 식사 메뉴를 추천받습니다')
-async def 뭐먹지(interaction: Interaction,
-              cat: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', required=True)):
-    if not cat:
-        await interaction.response.send_message(embed=helper.menu_helper())
-    else:
-        if cat == '전부':
-            menus = []
-            for k, v in foods.items():
-                menus += v
-            result = menus[random.randrange(0, len(menus))]
-            response = nextcord.Embed(title="메뉴 추천", description=f'오늘은 {result}{helper.eulreul(result)} 먹어보는 게 어떨까요?', color=helper.EMBED_COLOR)
-            await interaction.response.send_message(embed=response)
-        elif cat in ['특식', '찌개', '밥', '면', '국', '간편식']:
-            result = foods[cat][random.randrange(0, len(foods[cat]))]
-            response = nextcord.Embed(title="메뉴 추천", description=f'오늘은 {result}{helper.eulreul(result)} 먹어보는 게 어떨까요?', color=helper.EMBED_COLOR)
-            await interaction.response.send_message(embed=response)
-        else:
-            await interaction.response.send_message(embed=helper.menu_helper())
+# @app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='니앗누스에게 식사 메뉴를 추천받습니다')
+# async def 뭐먹지(interaction: Interaction,
+#               cat: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', required=True)):
+#     if not cat:
+#         await interaction.response.send_message(embed=helper.menu_helper())
+#     else:
+#         if cat == '전부':
+#             menus = []
+#             for k, v in foods.items():
+#                 menus += v
+#             result = menus[random.randrange(0, len(menus))]
+#             response = nextcord.Embed(title="메뉴 추천", description=f'오늘은 {result}{helper.eulreul(result)} 먹어보는 게 어떨까요?', color=helper.EMBED_COLOR)
+#             await interaction.response.send_message(embed=response)
+#         elif cat in ['특식', '찌개', '밥', '면', '국', '간편식']:
+#             result = foods[cat][random.randrange(0, len(foods[cat]))]
+#             response = nextcord.Embed(title="메뉴 추천", description=f'오늘은 {result}{helper.eulreul(result)} 먹어보는 게 어떨까요?', color=helper.EMBED_COLOR)
+#             await interaction.response.send_message(embed=response)
+#         else:
+#             await interaction.response.send_message(embed=helper.menu_helper())
 
 
 @app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='오늘의 로또 요약을 봅니다')
