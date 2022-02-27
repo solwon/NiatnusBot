@@ -206,7 +206,7 @@ async def buy(interaction: Interaction, amount: int = SlashOption(name='수량',
 
 
 def orderbook(currency):
-    context = crawler.orderbook('currency')
+    context = crawler.orderbook(currency)
     response = nextcord.Embed(color=helper.EMBED_COLOR)
     response.add_field(name='현재 시세', value=f"매수 최고가: {context['ask_list'][0][0]:,}c\n매도 최저가: {context['bid_list'][0][0]:,}c\n최근 거래가: {context['recent']:,}c", inline=True)
     response.add_field(name='최근 8시간', value=f"거래 최고가: {context['8h_stats'][0]:,}c\n거래 최저가: {context['8h_stats'][1]:,}c\n거래 평균가: {context['8h_stats'][2]:,}c", inline=True)
