@@ -51,9 +51,11 @@ async def on_ready():
 #     response.add_field(name='/가챠통계 (회원 멘션)', value='멘션 없이 호출할 경우 자신의 유네뾰이 통계를, 멘션이 있으면 멘션한 사람의 통계를 출력합니다', inline=False)
 #     await interaction.response.send_message(embed=response)
 
+food_categories = ['특식', '찌개', '밥', '면', '국', '간편식']
+
 
 @app.slash_command(guild_ids=[secrets['DISCORD']['server']], description='니앗누스에게 식사 메뉴를 추천받습니다')
-async def 뭐먹지(interaction: Interaction, cat: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', required=True)):
+async def 뭐먹지(interaction: Interaction, cat: str = SlashOption(name='음식 종류', description='선택할 음식의 종류', choices=food_categories, required=True)):
     if not cat:
         response = helper.menu_helper()
     else:
