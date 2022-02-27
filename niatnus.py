@@ -409,5 +409,5 @@ async def on_command_error(ctx, error):
 #     await app.get_guild(secrets['DISCORD']['server']).system_channel.send('시스템 채널입니다')
 
 
-lotto_result.start()
+# lotto_result.start()
 app.run(secrets['BOT']['token'])
