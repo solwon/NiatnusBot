@@ -366,7 +366,7 @@ async def emoji(interaction: Interaction, eid: str = SlashOption(name='이름', 
     emojis = interaction.guild.emojis
     emojis = list(filter(lambda x: x.name == eid, emojis))
     if len(emojis) == 0:
-        await interaction.response.send_message('없는 이모티콘입니다.')
+        await interaction.response.send_message(f'{eid}는 없는 이모티콘입니다.')
     else:
         response = nextcord.Embed()
         response.set_image(url=emojis[0].url)
