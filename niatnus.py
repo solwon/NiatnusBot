@@ -361,8 +361,8 @@ async def avatar(interaction: Interaction, user: nextcord.Member = SlashOption(n
     await interaction.response.send_message(embed=response)
 
 
-@app.slash_command(guild_ids=[secrets['DISCORD']['server']])
-async def 마호(interaction: Interaction, eid: str = SlashOption(name='이름', description='이모티콘 이름(콜론 없이 입력)')):
+@app.slash_command(name='마호', guild_ids=[secrets['DISCORD']['server']], description='지정한 이모지를 보여줍니다')
+async def maho(interaction: Interaction, eid: str = SlashOption(name='이름', description='이모지 이름(콜론 없이 입력)')):
     emojis = interaction.guild.emojis
     emojis = list(filter(lambda x: x.name == eid, emojis))
     if len(emojis) == 0:
