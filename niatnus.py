@@ -363,14 +363,17 @@ async def avatar(interaction: Interaction, user: nextcord.Member = SlashOption(n
 
 @app.slash_command(name='e', guild_ids=[secrets['DISCORD']['server']], description='니트로 없이 서버 내의 움직이는 이모지를 보여줍니다')
 async def emoji(interaction: Interaction, eid: str = SlashOption(name='이름', description='이모지 이름(콜론 없이 입력)', required=True)):
+    index = 0
+    if eid[-2] == '~':
+        index = int(eid[-1])
+        eid = eid[:-2]
     emojis = interaction.guild.emojis
     emojis = list(filter(lambda x: x.name == eid, emojis))
     if len(emojis) == 0:
         await interaction.response.send_message(f'{eid}는 없는 이모티콘입니다.')
     else:
-        print(emojis)
         response = nextcord.Embed()
-        response.set_image(url=emojis[0].url)
+        response.set_image(url=emojis[index].url)
         response.set_author(name=interaction.user.display_name, icon_url=str(interaction.user.avatar))
         await interaction.response.send_message(embed=response)
 
