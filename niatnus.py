@@ -368,6 +368,7 @@ async def emoji(interaction: Interaction, eid: str = SlashOption(name='이름', 
     if len(emojis) == 0:
         await interaction.response.send_message(f'{eid}는 없는 이모티콘입니다.')
     else:
+        print(emojis)
         response = nextcord.Embed()
         response.set_image(url=emojis[0].url)
         response.set_author(name=interaction.user.display_name, icon_url=str(interaction.user.avatar))
