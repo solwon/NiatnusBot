@@ -356,9 +356,22 @@ async def avatar(interaction: Interaction, user: nextcord.Member = SlashOption(n
     else:
         prof_user = user
     response = nextcord.Embed(color=prof_user.color)
-    response.set_author(name=prof_user.display_name, icon_url=prof_user.avatar)
+    response.set_author(name=prof_user.display_name, icon_url=str(prof_user.avatar))
     response.set_image(url=prof_user.display_avatar.url)
     await interaction.response.send_message(embed=response)
+
+
+@app.slash_command(guild_ids=[secrets['DISCORD']['server']])
+async def 마호(interaction: Interaction, eid: str = SlashOption(name='이름', description='이모티콘 이름(콜론 없이 입력)')):
+    emojis = interaction.guild.emojis
+    emojis = list(filter(lambda x: x.name == eid, emojis))
+    if len(emojis) == 0:
+        await interaction.response.send_message('없는 이모티콘입니다.')
+    else:
+        response = nextcord.Embed()
+        response.set_image(url=emojis[0].url)
+        response.set_author(name=interaction.user.display_name, icon_url=str(interaction.user.avatar))
+        await interaction.response.send_message(embed=response)
 
 
 @app.event
