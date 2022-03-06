@@ -168,14 +168,14 @@ async def price(interaction: Interaction):
 
 @hath.subcommand(name='팜', description='해스 판매 계산기')
 async def sell(interaction: Interaction, amount: int = SlashOption(name='수량', description='판매할 수량 입력(최대 50000해스)', required=True, min_value=0, max_value=50000)):
-    response = market_calc('hath', 'buy', amount)
+    response = market_calc('hath', 'sell', amount)
     if response:
         await interaction.response.send_message(embed=response)
 
 
 @hath.subcommand(name='삼', description='해스 구매 계산기')
 async def buy(interaction: Interaction, amount: int = SlashOption(name='수량', description='구매할 수량 입력(최대 50000해스)', required=True, min_value=0, max_value=50000)):
-    response = market_calc('hath', 'sell', amount)
+    response = market_calc('hath', 'buy', amount)
     if response:
         await interaction.response.send_message(embed=response)
 
@@ -193,14 +193,14 @@ async def price(interaction: Interaction):
 
 @gp.subcommand(name='팜', description='GP 판매 계산기')
 async def sell(interaction: Interaction, amount: int = SlashOption(name='수량', description='판매할 수량 입력(최대 50000kGP)', required=True, min_value=0, max_value=50000)):
-    response = market_calc('gp', 'buy', amount)
+    response = market_calc('gp', 'sell', amount)
     if response:
         await interaction.response.send_message(embed=response)
 
 
 @gp.subcommand(name='삼', description='GP 구매 계산기')
 async def buy(interaction: Interaction, amount: int = SlashOption(name='수량', description='구매할 수량 입력(최대 50000kGP)', required=True, min_value=0, max_value=50000)):
-    response = market_calc('gp', 'sell', amount)
+    response = market_calc('gp', 'buy', amount)
     if response:
         await interaction.response.send_message(embed=response)
 
