@@ -294,7 +294,7 @@ async def yunepyoi(interaction: Interaction):
             message = secrets['GACHA']['yunetsun']
             response = nextcord.Embed(title=f'★★★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['6'])
-        response.set_author(name=interaction.user.display_name, icon_url=interaction.user.display_avatar)
+        response.set_author(name=interaction.user.display_name, icon_url=interaction.user.display_avatar.url)
         await interaction.response.send_message(message, embed=response)
     else:
         # await interaction.response.send_message(f'{ctx.author.mention} 쿨타임입니다', delete_after=1)
@@ -356,7 +356,7 @@ async def avatar(interaction: Interaction, user: nextcord.Member = SlashOption(n
     else:
         prof_user = user
     response = nextcord.Embed(color=prof_user.color)
-    response.set_author(name=prof_user.display_name, icon_url=str(prof_user.display_avatar))
+    response.set_author(name=prof_user.display_name, icon_url=prof_user.display_avatar.url)
     response.set_image(url=prof_user.display_avatar.url)
     await interaction.response.send_message(embed=response)
 
