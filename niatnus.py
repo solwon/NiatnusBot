@@ -374,7 +374,7 @@ async def emoji(interaction: Interaction, eid: str = SlashOption(name='이름', 
     else:
         response = nextcord.Embed(color=interaction.user.color)
         response.set_image(url=emojis[index].url + '?size=100')
-        response.set_author(name=interaction.user.display_name, icon_url=str(interaction.user.avatar))
+        response.set_author(name=interaction.user.display_name, icon_url=interaction.user.display_avatar.url)
         await interaction.response.send_message(embed=response)
 
 
