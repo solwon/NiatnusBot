@@ -269,7 +269,7 @@ async def 유네뾰이(ctx: commands.Context):
     username = ctx.author.display_name
     result, response, message = yunepyoi_internal(userid, username)
     if result:
-        await ctx.reply(message, embed=response)
+        await ctx.reply(message, embed=response, mention_author=False)
     else:
         await ctx.message.delete()
 
