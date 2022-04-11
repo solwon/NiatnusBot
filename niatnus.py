@@ -263,12 +263,30 @@ def market_calc(currency, action, amount):
         return response
 
 
+@app.command()
+async def 유네뾰이(ctx: commands.Context):
+    userid = ctx.author.id
+    username = ctx.author.display_name
+    result, response, message = yunepyoi_internal(userid, username)
+    if result:
+        await ctx.reply(message, embed=response)
+    else:
+        await ctx.message.delete()
+
+
 @app.slash_command(name='유네뾰이', guild_ids=[secrets['DISCORD']['server']], description='헨번방의 아이돌 가챠!')
 async def yunepyoi(interaction: Interaction):
     # response = nextcord.Embed(color=helper.EMBED_COLOR)
     # response.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
     userid = interaction.user.id
     username = interaction.user.display_name
+    result, response, message = yunepyoi_internal(userid, username)
+    if result:
+        await interaction.response.send_message(message, embed=response)
+    else:
+        await interaction.message.delete()
+
+def yunepyoi_internal(userid, username):
     result = niatnusdb.check_gacha_cd(userid, username)
     if result:
         message = ''
@@ -294,11 +312,9 @@ async def yunepyoi(interaction: Interaction):
             message = secrets['GACHA']['yunetsun']
             response = nextcord.Embed(title=f'★★★★★★', color=helper.EMBED_COLOR)
             response.set_image(url=secrets['GACHA']['6'])
-        response.set_author(name=interaction.user.display_name, icon_url=interaction.user.display_avatar.url)
-        await interaction.response.send_message(message, embed=response)
+        return True, response, message
     else:
-        # await interaction.response.send_message(f'{ctx.author.mention} 쿨타임입니다', delete_after=1)
-        await interaction.message.delete()
+        return False, None, None
 
 
 @app.slash_command(name='구통계', guild_ids=[secrets['DISCORD']['server']], description='과거 유네뾰이 통계를 봅니다')
