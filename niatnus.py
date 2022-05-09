@@ -283,8 +283,8 @@ async def yunepyoi(interaction: Interaction):
     result, response, message = yunepyoi_internal(userid, username)
     if result:
         await interaction.response.send_message(message, embed=response)
-    else:
-        await interaction.message.delete()
+    # else:
+    #     await interaction.message.delete()
 
 def yunepyoi_internal(userid, username):
     result = niatnusdb.check_gacha_cd(userid, username)
@@ -392,6 +392,11 @@ async def emoji(interaction: Interaction, eid: str = SlashOption(name='이름', 
         response.set_image(url=emojis[index].url + '?size=100')
         response.set_author(name=interaction.user.display_name, icon_url=interaction.user.display_avatar.url)
         await interaction.response.send_message(embed=response)
+
+
+# @app.slash_command(name='s', guild_ids=[secrets['DISCORD']['server']], description='니트로 없이 서버의 스티커를 보여줍니다')
+# async def sticker(interaction: Interaction, sid: str = SlashOption(name='이름', description='스티커 이름', required=True)):
+#     pass
 
 
 @app.event
