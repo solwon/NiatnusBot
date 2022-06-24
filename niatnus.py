@@ -98,6 +98,33 @@ async def la(interaction: Interaction):
     await interaction.response.send_message(embed=response)
 
 
+@app.slash_command(name='로또또', guild_ids=[secrets['DISCORD']['server']], description='로또알림 디버그용')
+async def lotto_test(interaction:Interaction, cat: str = SlashOption(name='종류', description='', choices=['무기', '방어구'], required=True)):
+    response = nextcord.Embed(color=helper.EMBED_COLOR)
+    context = crawler.lotto()
+    response.add_field(name='무기', value=f"{context['w_t_name']}\n{int(context['w_t_ticket']):,}장", inline=True)
+    response.add_field(name='방어구', value=f"{context['a_t_name']}\n{int(context['a_t_ticket']):,}장", inline=True)
+    # 무기시간(오전9시)
+    if cat == '무기':
+        attribute = weekday_attribute()
+        response.add_field(name='어제자 무기',
+                           value=f"{context['w_y_name']}\n{int(context['w_y_ticket']):,}장\n{context['w_y_winner']}",
+                           inline=True)
+        response.add_field(name='오늘의 요일 버프', value=f'{attribute[0]} 저항이 {attribute[1]}% 감소합니다', inline=False)
+    else:
+        response.add_field(name='어제자 방어구',
+                           value=f"{context['a_y_name']}\n{int(context['a_y_ticket']):,}장\n{context['a_y_winner']}",
+                           inline=True)
+
+    sys_chan = app.get_guild(secrets['DISCORD']['server']).system_channel
+    if not sys_chan:
+        await app.get_guild(secrets['DISCORD']['server']).get_channel(secrets['DISCORD']['bot_command']).send(
+            f"{secrets['GACHA']['goom']} 시스템 채널을 확인해주세요")
+    else:
+        await app.get_guild(secrets['DISCORD']['server']).system_channel.send(embed=response)  # 헨번방 general
+    # await app.get_channel(secrets['DISCORD']['test_channel']).send(embed=response)  # 테스트용 채널
+
+
 # 로또결과 공지용
 @tasks.loop(seconds=30)
 async def lotto_result():
