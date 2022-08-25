@@ -3,7 +3,7 @@ import nextcord
 from nextcord import Interaction, SlashOption
 from nextcord.ext import commands
 
-token = 'OTQ3NDY2ODcxMjE1NjI0MjQz.YhtrSQ.OIJ4NvlMv47Ol6KSCgGbq9iBB3I'
+token = 'OTQ3NDY2ODcxMjE1NjI0MjQz.YhtrSQ.OIJ4NvlMv47Ol6KSCgGbq9iBB3I' # revoked
 bot = commands.Bot(command_prefix='!')
 
 
