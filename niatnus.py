@@ -421,23 +421,6 @@ async def emoji(interaction: Interaction, eid: str = SlashOption(name='이름', 
         await interaction.response.send_message(embed=response)
 
 
-@app.slash_command(name='et', guild_ids=[secrets['DISCORD']['server']], description='니트로 없이 서버 내의 움직이는 이모지를 보여줍니다')
-async def emoji(interaction: Interaction, eid: nextcord.Emoji = SlashOption(name='이름', description='이모지 이름', required=True)):
-    index = 0
-    if eid[-2] == '~':
-        index = int(eid[-1])
-        eid = eid[:-2]
-    emojis = interaction.guild.emojis
-    emojis = list(filter(lambda x: x.name == eid, emojis))
-    if len(emojis) == 0:
-        await interaction.response.send_message(f'{eid}는 없는 이모티콘입니다.')
-    else:
-        response = nextcord.Embed(color=interaction.user.color)
-        response.set_image(url=emojis[index].url + '?size=100')
-        response.set_author(name=interaction.user.display_name, icon_url=interaction.user.display_avatar.url)
-        await interaction.response.send_message(embed=response)
-
-
 # @app.slash_command(name='s', guild_ids=[secrets['DISCORD']['server']], description='니트로 없이 서버의 스티커를 보여줍니다')
 # async def sticker(interaction: Interaction, sid: str = SlashOption(name='이름', description='스티커 이름', required=True)):
 #     pass
