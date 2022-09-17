@@ -400,7 +400,11 @@ async def avatar(interaction: Interaction, user: nextcord.Member = SlashOption(n
         prof_user = user
     response = nextcord.Embed(color=prof_user.color)
     response.set_author(name=prof_user.display_name, icon_url=prof_user.display_avatar.url)
-    response.set_image(url=prof_user.display_avatar.url)
+    if prof_user.avatar:
+        avatar_url = prof_user.avatar.url
+    else:
+        avatar_url = prof_user.display_avatar.url
+    response.set_image(url=avatar_url)
     await interaction.response.send_message(embed=response)
 
 
